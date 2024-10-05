@@ -1,9 +1,7 @@
-package com.example;
+package com.example.aplicacoes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.ItemCard;
 
 public class Cardapio {
     

@@ -1,12 +1,12 @@
-package com;
+package com.example.aplicacoes;
 
 public class ItemCard {
     private String item;
     private String descricao;
     private double preco;
 
-    public ItemCard(String dia, String descricao, double preco) {
-        this.item = dia;
+    public ItemCard(String nome, String descricao, double preco) {
+        this.item = nome;
         this.descricao = descricao;
         this.preco = preco;
     }
