@@ -37,5 +37,11 @@ public class Usuario {
     public void setIdentificacao(int tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
+    
+    public String toString() {
+        
+        return "login: "+ getLogin() + " senha: " + getSenha();
+    }
 }
 
