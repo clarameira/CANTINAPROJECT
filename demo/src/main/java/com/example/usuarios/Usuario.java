@@ -1,11 +1,9 @@
 package com.example.usuarios;
-
 public class Usuario {
-    private String login;
-    private String senha;
+    protected String login;
+    protected String senha;
     private int tipoUsuario; 
     private boolean loginPermitido;
-    
 
     public Usuario(String login, String senha) {
         this.login = login;
@@ -38,10 +36,16 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    
+    public void setLogin(String login) {
+        this.login = login; // Definindo o novo valor de login
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha; // Definindo o novo valor de senha
+    }
+
+    @Override
     public String toString() {
-        
-        return "login: "+ getLogin() + " senha: " + getSenha();
+        return "login: " + getLogin() + " senha: " + getSenha();
     }
 }
-

@@ -1,64 +1,64 @@
 package com.example.usuarios;
 
 import java.util.Scanner;
-import java.sql.SQLException;
 import java.util.Iterator;
+import java.sql.SQLException;
 
 import com.example.DAO.AdminDao;
 import com.example.aplicacoes.Cantina;
 import com.example.aplicacoes.Cardapio;
 import com.example.aplicacoes.ItemCard;
 
-public class Admin extends Usuario{
-
+public class Admin extends Usuario {
     private Cardapio cardapio;
     private Cantina cantina;
-    Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
     private AdminDao admr;
-    
-    public Admin(String login, String senha, Cantina cantina){
-        super(login,senha);
+
+    // Construtor
+    public Admin(String login, String senha, Cantina cantina) {
+        super(login, senha);
         this.admr = new AdminDao();
-        this.cantina =  cantina;
+        this.cantina = cantina;
         this.cardapio = new Cardapio();
     }
 
-
-    
-    public void criaradm(){
-        boolean usuarioExistente = false;
-        System.out.println("login: ");
+    public void criaradm() throws SQLException {
+        System.out.print("Login: ");
         String login = sc.nextLine();
         
-        System.out.println("senha: ");
+        System.out.print("Senha: ");
         String senha = sc.nextLine();
-        // sc.next();
-
+    
+        // Verifica se o usuário já existe
+        if (usuarioExiste(login)) {
+            System.out.println("Já existe um usuário com esse login.");
+            return; // Saia do método se o usuário já existir
+        }
+    
         Admin admin = new Admin(login, senha, cantina);
+        
+        // Chama o método para inserir no banco de dados
+        AdminDao.inserirUsuario(admin); // Insere no banco de dados
+        cantina.adicionarAdmin(admin); // Adiciona à lista de administradores
+        System.out.println("Administrador criado com sucesso!");
+    }
 
+    // Verifica se o usuário existe
+    private boolean usuarioExiste(String login) {
         for (Admin u : cantina.admin) {
-            if (u instanceof Admin && u.getLogin().equals(login)) {
-                usuarioExistente = true;
-                break;
+            if (u.getLogin().equals(login)) {
+                return true;
             }
         }
- 
-        if(!usuarioExistente){
-            AdminDao.inserirUsuario(admin);
-            cantina.admin.add(admin); 
-            System.out.println("Admin criado com sucesso!");
-        }else{
-            System.out.println("alguem com essa conta ja existe");
-        }
-         }
-         
+        return false;
+    }
 
-    
-
-
+    // Método para fazer login
     public void loginAdmin() {
         System.out.println("\n-------------------");
         System.out.println("Login Administrador:");
+        System.out.print("Login: ");
         String login = sc.nextLine();
         System.out.print("Senha: ");
         String senha = sc.nextLine();
@@ -66,108 +66,105 @@ public class Admin extends Usuario{
         for (Usuario u : cantina.admin) {
             if (u instanceof Admin && login.equals(u.getLogin()) && senha.equals(u.getSenha())) {
                 System.out.println("Login bem-sucedido!");
-                System.out.println("-------------------");
-                cantina.usuarioLogado = u;
+                cantina.usuarioLogado = u; // Armazena o usuário logado
                 exibirMenuAdmin();
                 return;
             }
-        }}
-
-
-
-
-        public void exibirMenuAdmin() {
-            int opcao;
-            do {
-                System.out.println("     \nMenu Administrador:");
-                System.out.println("      1. Exibir cardápio");
-                System.out.println("      2. Adicionar ao cardápio");
-                System.out.println("      3. Editar no cardápio");
-                System.out.println("      4. Remover do cardápio");
-                System.out.println("      5. Sair");
-                System.out.print("       Escolha uma opção: ");
-                opcao = sc.nextInt();
-                sc.nextLine();
-    
-                switch (opcao) {
-                    case 1:
-                        cardapio.exibir();
-                        break;
-                    case 2:
-                        adicionarItemCardapio();
-                        break;
-                    case 3:
-                        
-                        break;
-                    case 4:
-                        
-                        break;
-                    case 5:
-                        System.out.println("Saindo.");
-                        break;
-                    default:
-                        System.out.println("Opção inválida!");
-                }
-            } while (opcao != 5);
         }
+        System.out.println("Login ou senha incorretos.");
+    }
 
+    // Método para exibir o menu do administrador
+    public void exibirMenuAdmin() {
+        int opcao;
+        do {
+            System.out.println("     \nMenu Administrador:");
+            System.out.println("      1. Exibir cardápio");
+            System.out.println("      2. Adicionar ao cardápio");
+            System.out.println("      3. Editar no cardápio");
+            System.out.println("      4. Remover do cardápio");
+            System.out.println("      5. Sair");
+            System.out.print("       Escolha uma opção: ");
+            opcao = sc.nextInt();
+            sc.nextLine(); // Limpa o buffer
 
+            switch (opcao) {
+                case 1:
+                    cardapio.exibir();
+                    break;
+                case 2:
+                    adicionarItemCardapio();
+                    break;
+                case 3:
+                    // Implementar lógica para editar item do cardápio
+                    break;
+                case 4:
+                    // Implementar lógica para remover item do cardápio
+                    break;
+                case 5:
+                    System.out.println("Saindo.");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (opcao != 5);
+    }
 
-        
-    
+    // Método para adicionar um item ao cardápio
     public void adicionarItemCardapio() {
-        System.out.print("Insira nome do item: ");
+        System.out.print("Insira o nome do item: ");
         String nome = sc.nextLine();
         System.out.print("Insira a descrição: ");
         String descricao = sc.nextLine();
         System.out.print("Insira o preço: ");
         double preco = sc.nextDouble();
-        sc.nextLine();
+        sc.nextLine(); // Limpa o buffer
 
         ItemCard novoItem = new ItemCard(nome, descricao, preco);
         cardapio.adicionarItem(novoItem);
-        System.out.println("item adicionado!");
+        System.out.println("Item adicionado ao cardápio!");
     }
 
+    // Método para deletar um administrador
+    public void deletaradm() {
+        System.out.print("Qual administrador deseja deletar? ");
+        String nome = sc.nextLine();
+        System.out.print("Qual a senha? ");
+        String senha = sc.nextLine();
 
-    public void deletaradm(){
-        String nome, senha;
-    
-        System.out.println("Qual administrador deseja deletar?");
-        nome = sc.nextLine();
-        System.out.println("Qual a senha?");
-        senha = sc.nextLine();
-    
-        Admin ad = new Admin(nome, senha, cantina);
+        Admin adminParaRemover = new Admin(nome, senha, cantina);
         Iterator<Admin> iterator = cantina.admin.iterator();
-    
         boolean adminRemovido = false;
-    
+
         while (iterator.hasNext()) {
             Admin adm = iterator.next();
-            
-            
-            if (adm.getLogin().equals(ad.getLogin()) && adm.getSenha().equals(ad.getSenha())) {
-                iterator.remove(); 
-                System.out.println("entrou");
-    
+            if (adm.getLogin().equals(adminParaRemover.getLogin()) && adm.getSenha().equals(adminParaRemover.getSenha())) {
+                iterator.remove(); // Remove da lista
                 try {
-                    admr.deletar(adm);
+                    admr.deletar(adm); // Remove do banco de dados
                     System.out.println("Administrador deletado com sucesso.");
-                    
                     adminRemovido = true;
                 } catch (SQLException e) {
-                    e.printStackTrace();
-                    System.out.println("Erro ao deletar administrador do banco.");
-                    
+                    System.out.println("Erro ao deletar administrador do banco: " + e.getMessage());
                 }
-                break; 
-                
+                break;
             }
         }
-    
+
         if (!adminRemovido) {
             System.out.println("Administrador não encontrado ou senha incorreta.");
-        } 
+        }
+    }
+
+    public void setLogin(String login) {
+        super.setLogin(login); // Chama o método da superclasse
+    }
+
+    public void setSenha(String senha) {
+        super.setSenha(senha); // Chama o método da superclasse
+    }
+
+    public Cantina getCantina() {
+        return cantina; // Retorna a cantina associada
     }
 }
