@@ -106,7 +106,35 @@ public class CantinaSwing {
             }
         } while (opcao != 5);
     }
-    
+
+    private void createAdmin(ActionEvent e) {
+        String login = JOptionPane.showInputDialog("Digite o login do novo administrador:");
+        String senha = JOptionPane.showInputDialog("Digite a senha do novo administrador:");
+
+        if (adminExists(login)) {
+            JOptionPane.showMessageDialog(null, "Já existe um usuário com esse login.");
+            return;
+        }
+
+        Admin newAdmin = new Admin(login, senha, null);
+
+        try {
+            AdminDao.inserirUsuario(newAdmin); 
+            JOptionPane.showMessageDialog(null, "Administrador criado com sucesso!");
+            adminList.add(newAdmin); 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao criar administrador: " + ex.getMessage());
+        }
+    }
+
+    private boolean adminExists(String login) {
+        for (Admin admin : adminList) {
+            if (admin.getLogin().equals(login)) {
+                return true;
+            }
+        }
+        return false;
+    }
     private void exibirCardapio() {
         StringBuilder cardapioText = new StringBuilder();
         cardapioText.append("\n***************************************************************************\n");
@@ -140,36 +168,7 @@ public class CantinaSwing {
             JOptionPane.showMessageDialog(null, "Erro ao adicionar item ao banco de dados: " + e.getMessage());
         }
     }
-
-    private void createAdmin(ActionEvent e) {
-        String login = JOptionPane.showInputDialog("Digite o login do novo administrador:");
-        String senha = JOptionPane.showInputDialog("Digite a senha do novo administrador:");
-
-        if (adminExists(login)) {
-            JOptionPane.showMessageDialog(null, "Já existe um usuário com esse login.");
-            return;
-        }
-
-        Admin newAdmin = new Admin(login, senha, null);
-
-        try {
-            AdminDao.inserirUsuario(newAdmin); 
-            JOptionPane.showMessageDialog(null, "Administrador criado com sucesso!");
-            adminList.add(newAdmin); 
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao criar administrador: " + ex.getMessage());
-        }
-    }
-
-    private boolean adminExists(String login) {
-        for (Admin admin : adminList) {
-            if (admin.getLogin().equals(login)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    
     private void carregarCardapio() {
         try {
             ItemDao.pegarTodos(cardapio); // Carrega os itens do banco de dados
