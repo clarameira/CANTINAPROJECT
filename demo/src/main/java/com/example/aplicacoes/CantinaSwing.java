@@ -1,7 +1,6 @@
 package com.example.aplicacoes;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,62 +8,57 @@ import java.util.List;
 
 import com.example.usuarios.Admin;
 import com.example.DAO.AdminDao;
+import com.example.DAO.ItemDao; // Importar ItemDao
 
 public class CantinaSwing {
     private List<Admin> adminList;
     private AdminDao adminDao;
-    private Cardapio cardapio; // Adicionado um objeto Cardapio
-    private JFrame menuFrame; // Campo para armazenar a janela do menu
+    private Cardapio cardapio;
+    private JFrame menuFrame;
 
     public CantinaSwing() {
         this.adminList = new ArrayList<>();
         this.adminDao = new AdminDao();
-        this.cardapio = new Cardapio(); // Inicializa o cardápio
+        this.cardapio = new Cardapio(); 
         initializeUI();
+        carregarCardapio(); // Carrega o cardápio do banco de dados na inicialização
     }
 
     private void initializeUI() {
-        // Criando a janela principal (frame)
         JFrame frame = new JFrame("Sistema Cantina");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Criando painel
         JPanel panel = new JPanel();
         frame.add(panel);
         placeComponents(panel);
 
-        // Exibir a janela
         frame.setVisible(true);
     }
 
     private void placeComponents(JPanel panel) {
-        panel.setLayout(null); // Definindo layout nulo para controle manual dos componentes
+        panel.setLayout(null); 
 
-        // Criando o botão de login
         JButton loginButton = new JButton("Login Admin");
-        loginButton.setBounds(100, 50, 200, 25); // Definindo posição e tamanho do botão
+        loginButton.setBounds(100, 50, 200, 25); 
         loginButton.addActionListener(this::loginAdmin);
         panel.add(loginButton);
 
-        // Criando o botão de criar conta
         JButton createAccountButton = new JButton("Criar Conta Admin");
-        createAccountButton.setBounds(100, 100, 200, 25); // Definindo posição e tamanho do botão
+        createAccountButton.setBounds(100, 100, 200, 25); 
         createAccountButton.addActionListener(this::createAdmin);
         panel.add(createAccountButton);
     }
 
     private void loginAdmin(ActionEvent e) {
-        // Simulação de login
         String login = JOptionPane.showInputDialog("Digite o login:");
         String senha = JOptionPane.showInputDialog("Digite a senha:");
 
         try {
-            // Verificando se os dados de login estão corretos usando o AdminDao
             Admin admin = adminDao.validarLogin(login, senha);
             if (admin != null) {
                 JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
-                exibirMenuAdmin(admin); // Chama o método para exibir o menu do administrador
+                exibirMenuAdmin(admin); 
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha inválidos!");
             }
@@ -72,8 +66,9 @@ public class CantinaSwing {
             JOptionPane.showMessageDialog(null, "Erro ao validar login: " + ex.getMessage());
         }
     }
+
     private void exibirMenuAdmin(Admin admin) {
-        int opcao = 0; // Inicializa a variável opcao
+        int opcao = 0; 
         do {
             String menu = "     \nMenu Administrador:\n" +
                           "      1. Exibir cardápio\n" +
@@ -83,13 +78,13 @@ public class CantinaSwing {
                           "      5. Sair\n" +
                           "       Escolha uma opção:";
             String input = JOptionPane.showInputDialog(menu);
-            if (input == null) break; // Se o usuário fechar a janela, sair do loop
+            if (input == null) break; 
             
             try {
                 opcao = Integer.parseInt(input);
                 switch (opcao) {
                     case 1:
-                        exibirCardapio(); // Chama o método para exibir o cardápio
+                        exibirCardapio(); 
                         break;
                     case 2:
                         adicionarItemCardapio();
@@ -112,7 +107,6 @@ public class CantinaSwing {
         } while (opcao != 5);
     }
     
-
     private void exibirCardapio() {
         StringBuilder cardapioText = new StringBuilder();
         cardapioText.append("\n***************************************************************************\n");
@@ -133,14 +127,17 @@ public class CantinaSwing {
         String nome = JOptionPane.showInputDialog("Insira o nome do item:");
         String descricao = JOptionPane.showInputDialog("Insira a descrição:");
         String precoInput = JOptionPane.showInputDialog("Insira o preço:");
-
+    
         try {
-            double preco = Double.parseDouble(precoInput); // Converte para double
+            double preco = Double.parseDouble(precoInput); 
             ItemCard novoItem = new ItemCard(nome, descricao, preco);
             cardapio.adicionarItem(novoItem);
+            ItemDao.inserirItem(novoItem); // Inserir o item no banco de dados
             JOptionPane.showMessageDialog(null, "Item adicionado ao cardápio!");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Preço inválido. Por favor, insira um número.");
+        } catch (SQLException e) { // Agora é seguro capturar SQLException
+            JOptionPane.showMessageDialog(null, "Erro ao adicionar item ao banco de dados: " + e.getMessage());
         }
     }
 
@@ -148,20 +145,17 @@ public class CantinaSwing {
         String login = JOptionPane.showInputDialog("Digite o login do novo administrador:");
         String senha = JOptionPane.showInputDialog("Digite a senha do novo administrador:");
 
-        // Verifica se já existe um usuário com o mesmo login
         if (adminExists(login)) {
             JOptionPane.showMessageDialog(null, "Já existe um usuário com esse login.");
             return;
         }
 
-        // Criação do novo administrador
-        Admin newAdmin = new Admin(login, senha, null); // Passar a instância correta da cantina, se necessário
+        Admin newAdmin = new Admin(login, senha, null);
 
         try {
-            // Tente criar o administrador e salvar no banco
-            AdminDao.inserirUsuario(newAdmin); // Chama o método de inserção
+            AdminDao.inserirUsuario(newAdmin); 
             JOptionPane.showMessageDialog(null, "Administrador criado com sucesso!");
-            adminList.add(newAdmin); // Adicione à lista de administradores
+            adminList.add(newAdmin); 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao criar administrador: " + ex.getMessage());
         }
@@ -174,6 +168,14 @@ public class CantinaSwing {
             }
         }
         return false;
+    }
+
+    private void carregarCardapio() {
+        try {
+            ItemDao.pegarTodos(cardapio); // Carrega os itens do banco de dados
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar o cardápio: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
