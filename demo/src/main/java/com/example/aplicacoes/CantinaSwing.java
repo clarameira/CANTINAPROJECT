@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.usuarios.Admin;
-import com.example.DAO.AdminDao; // Certifique-se de importar a classe AdminDao.
+import com.example.DAO.AdminDao; 
 
 public class CantinaSwing {
     private List<Admin> adminList;
     private Admin adm; 
-    private AdminDao adminDao; // Instância do AdminDao
+    private AdminDao adminDao; 
 
     public CantinaSwing() {
         this.adminList = new ArrayList<>();
-        this.adm = new Admin("admin", "admin", null); // Valores iniciais para a conta de admin
-        this.adminDao = new AdminDao(); // Inicializando AdminDao
+        this.adm = new Admin("admin", "admin", null); 
+        this.adminDao = new AdminDao(); 
         initializeUI();
     }
 
@@ -62,7 +62,7 @@ public class CantinaSwing {
             // Verificando se os dados de login estão corretos usando o AdminDao
             if (adminDao.validarLogin(login, senha)) {
                 JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
-                // Aqui você pode chamar um método para redirecionar para o menu do administrador
+                // Chama um método para redirecionar para o menu do administrador
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha inválidos!");
             }
@@ -85,7 +85,7 @@ public class CantinaSwing {
         Admin newAdmin = new Admin(login, senha, this.adm.getCantina());
         
         try {
-            // Tente criar o administrador e salvar no banco
+            // Tenta criar o administrador e salvar no banco
             AdminDao.inserirUsuario(newAdmin); // Chama o método de inserção
             JOptionPane.showMessageDialog(null, "Administrador criado com sucesso!");
             adminList.add(newAdmin); // Adicione à lista de administradores
