@@ -56,24 +56,27 @@ public class AdminDao {
         }
     }
 
-    public boolean validarLogin(String login, String senha) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM administrador WHERE login = ? AND senha = ?";
+    public Admin validarLogin(String login, String senha) throws SQLException {
+        String sql = "SELECT * FROM administrador WHERE login = ? AND senha = ?";
+        
         try (Connection conexao = Conexao.conectar();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-    
+
             pstmt.setString(1, login);
             pstmt.setString(2, senha);
             
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0; // Retorna true se o usuário existir
+                // Retorna uma instância de Admin se o login for válido
+                return new Admin(rs.getString("login"), rs.getString("senha"), null); // Ajuste conforme sua lógica
             }
         } catch (SQLException e) {
             System.err.println("Erro ao validar login:");
             e.printStackTrace();
             throw e; // Repropaga a exceção
         }
-        return false; // Retorna false por padrão
+        return null; // Retorna null se não encontrar o admin
     }
 }
+
 
