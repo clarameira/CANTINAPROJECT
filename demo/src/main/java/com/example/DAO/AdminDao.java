@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.example.usuarios.Admin;
-import com.example.aplicacoes.Cantina;
+import com.example.aplicacoes.CantinaSwing;
 
 public class AdminDao { 
     public static void inserirUsuario(Admin admin) throws SQLException {
@@ -25,7 +25,7 @@ public class AdminDao {
         }
     }
 
-    public void pegarTodos(Cantina cantina) throws SQLException {
+    public void pegarTodos(CantinaSwing cantina) throws SQLException {
         Connection conn = Conexao.conectar();
         String sql = "SELECT login, senha FROM administrador"; 
 
@@ -44,7 +44,7 @@ public class AdminDao {
             throw e; // Repropaga a exceção
         } 
     }
-
+    
     public static int deletar(Admin admin) throws SQLException {
         String sql = "DELETE FROM administrador WHERE login = ?";
         try (Connection conn = Conexao.conectar();
