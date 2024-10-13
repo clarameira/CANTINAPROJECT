@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import com.example.usuarios.Admin;
 import com.example.aplicacoes.Cantina;
 
@@ -26,7 +25,7 @@ public class AdminDao {
         }
     }
 
-    public List<Admin> pegarTodos(Cantina cantina) throws SQLException {
+    public void pegarTodos(Cantina cantina) throws SQLException {
         Connection conn = Conexao.conectar();
         String sql = "SELECT login, senha FROM administrador"; 
 
@@ -37,17 +36,16 @@ public class AdminDao {
                 String login = rs.getString("login");
                 String senha = rs.getString("senha");
 
-                Admin adm = new Admin(login, senha, null); 
-                cantina.adicionarAdmin(adm);
+                Admin adm = new Admin(login, senha); // Passa o cardápio
+                cantina.adicionarAdmin(adm); // Adiciona à lista de administradores
             }
         } catch (SQLException e) {
             e.printStackTrace(); 
             throw e; // Repropaga a exceção
         } 
-        return cantina.admin;
     }
 
-    public int deletar(Admin admin) throws SQLException {
+    public static int deletar(Admin admin) throws SQLException {
         String sql = "DELETE FROM administrador WHERE login = ?";
         try (Connection conn = Conexao.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -67,8 +65,7 @@ public class AdminDao {
             
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                // Retorna uma instância de Admin se o login for válido
-                return new Admin(rs.getString("login"), rs.getString("senha"), null); // Ajuste conforme sua lógica
+                return new Admin(rs.getString("login"), rs.getString("senha")); // Ajuste conforme sua lógica
             }
         } catch (SQLException e) {
             System.err.println("Erro ao validar login:");
@@ -78,5 +75,3 @@ public class AdminDao {
         return null; // Retorna null se não encontrar o admin
     }
 }
-
-

@@ -1,170 +1,135 @@
 package com.example.usuarios;
 
-import java.util.Scanner;
-import java.util.Iterator;
 import java.sql.SQLException;
 
-import com.example.DAO.AdminDao;
-import com.example.aplicacoes.Cantina;
+import javax.swing.*;
+
+import com.example.DAO.ItemDao;
 import com.example.aplicacoes.Cardapio;
 import com.example.aplicacoes.ItemCard;
 
-public class Admin extends Usuario {
+public class Admin {
+    private String login;
+    private String senha;
     private Cardapio cardapio;
-    private Cantina cantina;
-    private Scanner sc = new Scanner(System.in);
-    private AdminDao admr;
+    private int cont;
 
-    // Construtor
-    public Admin(String login, String senha, Cantina cantina) {
-        super(login, senha);
-        this.admr = new AdminDao();
-        this.cantina = cantina;
+    public Admin(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
         this.cardapio = new Cardapio();
+        this.cont = 0; 
     }
 
-    public void criaradm() throws SQLException {
-        System.out.print("Login: ");
-        String login = sc.nextLine();
-        
-        System.out.print("Senha: ");
-        String senha = sc.nextLine();
-    
-        // Verifica se o usuário já existe
-        if (usuarioExiste(login)) {
-            System.out.println("Já existe um usuário com esse login.");
-            return; // Saia do método se o usuário já existir
-        }
-    
-        Admin admin = new Admin(login, senha, cantina);
-        
-        // Chama o método para inserir no banco de dados
-        AdminDao.inserirUsuario(admin); // Insere no banco de dados
-        cantina.adicionarAdmin(admin); // Adiciona à lista de administradores
-        System.out.println("Administrador criado com sucesso!");
+    // Getters
+    public String getLogin() {
+        return login;
     }
 
-    // Verifica se o usuário existe
-    private boolean usuarioExiste(String login) {
-        for (Admin u : cantina.admin) {
-            if (u.getLogin().equals(login)) {
-                return true;
-            }
-        }
-        return false;
+    public String getSenha() {
+        return senha;
     }
 
-    // Método para fazer login
-    public void loginAdmin() {
-        System.out.println("\n-------------------");
-        System.out.println("Login Administrador:");
-        System.out.print("Login: ");
-        String login = sc.nextLine();
-        System.out.print("Senha: ");
-        String senha = sc.nextLine();
-
-        for (Usuario u : cantina.admin) {
-            if (u instanceof Admin && login.equals(u.getLogin()) && senha.equals(u.getSenha())) {
-                System.out.println("Login bem-sucedido!");
-                cantina.usuarioLogado = u; // Armazena o usuário logado
-                exibirMenuAdmin();
-                return;
-            }
-        }
-        System.out.println("Login ou senha incorretos.");
+    public void setCardapio(Cardapio cardapio) {
+        this.cardapio = cardapio;
     }
 
-    // Método para exibir o menu do administrador
-    public void exibirMenuAdmin() {
-        int opcao;
+    public void exibirMenuAdmin() throws SQLException {
+        int opcao = 0; 
         do {
-            System.out.println("     \nMenu Administrador:");
-            System.out.println("      1. Exibir cardápio");
-            System.out.println("      2. Adicionar ao cardápio");
-            System.out.println("      3. Editar no cardápio");
-            System.out.println("      4. Remover do cardápio");
-            System.out.println("      5. Sair");
-            System.out.print("       Escolha uma opção: ");
-            opcao = sc.nextInt();
-            sc.nextLine(); // Limpa o buffer
+            String menu = "     \nMenu Administrador:\n" +
+                          "      1. Exibir cardápio\n" +
+                          "      2. Adicionar ao cardápio\n" +
+                          "      3. Editar item no cardápio\n" +
+                          "      4. Remover do cardápio\n" +
+                          "      5. Sair\n" +
+                          "       Escolha uma opção:";
+            String input = JOptionPane.showInputDialog(menu);
+            if (input == null) break; // Se o usuário cancelar, sai do loop
 
-            switch (opcao) {
-                case 1:
-                    cardapio.exibir();
-                    break;
-                case 2:
-                    adicionarItemCardapio();
-                    break;
-                case 3:
-                    // Implementar lógica para editar item do cardápio
-                    break;
-                case 4:
-                    // Implementar lógica para remover item do cardápio
-                    break;
-                case 5:
-                    System.out.println("Saindo.");
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
+            try {
+                opcao = Integer.parseInt(input); // Converte a entrada do usuário para um inteiro
+                switch (opcao) {
+                    case 1:
+                    if (cardapio != null) {
+                        if(cont==0){
+                            cont++;
+                        ItemDao.pegarTodos(cardapio);
+                    }
+                        cardapio.exibir(); // Chama o método para exibir cardápio
+                    } else {
+                        JOptionPane.showMessageDialog(null, "O cardápio não está disponível.");
+                    }
+                     // Chama o método para exibir cardápio
+                        break;
+                    case 2:
+                        adicionarItemCardapio(); // Adiciona item ao cardápio
+                        break;
+                    case 3:
+                        editarItemCardapio(); // Implementar este método para edição
+                        break;
+                    case 4:
+                        removerItemCardapio(); 
+                        break;
+                    case 5:
+                        JOptionPane.showMessageDialog(null, "Saindo.");
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opção inválida!");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, insira um número válido.");
             }
-        } while (opcao != 5);
+        } while (opcao != 5); 
     }
 
-    // Método para adicionar um item ao cardápio
-    public void adicionarItemCardapio() {
-        System.out.print("Insira o nome do item: ");
-        String nome = sc.nextLine();
-        System.out.print("Insira a descrição: ");
-        String descricao = sc.nextLine();
-        System.out.print("Insira o preço: ");
-        double preco = sc.nextDouble();
-        sc.nextLine(); // Limpa o buffer
-
+    private void adicionarItemCardapio() throws SQLException {
+        String nome = JOptionPane.showInputDialog("Digite o nome do item:");
+        String descricao = JOptionPane.showInputDialog("Digite a descrição do item:");
+        
+        double preco;
+        while (true) {
+            String precoInput = JOptionPane.showInputDialog("Digite o preço do item:");
+            if (precoInput == null) return; // Se o usuário cancelar, sai do método
+            try {
+                preco = Double.parseDouble(precoInput);
+                break; // Sai do loop se a conversão for bem-sucedida
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Preço inválido. Tente novamente.");
+            }
+        }
+        
         ItemCard novoItem = new ItemCard(nome, descricao, preco);
         cardapio.adicionarItem(novoItem);
-        System.out.println("Item adicionado ao cardápio!");
+        ItemDao.inserirItem(novoItem);
+        JOptionPane.showMessageDialog(null, "Item adicionado com sucesso!");
     }
 
-    // Método para deletar um administrador
-    public void deletaradm() {
-        System.out.print("Qual administrador deseja deletar? ");
-        String nome = sc.nextLine();
-        System.out.print("Qual a senha? ");
-        String senha = sc.nextLine();
+    private void editarItemCardapio() {
+        
+        JOptionPane.showMessageDialog(null, "Funcionalidade de edição não implementada ainda.");
+    }
 
-        Admin adminParaRemover = new Admin(nome, senha, cantina);
-        Iterator<Admin> iterator = cantina.admin.iterator();
-        boolean adminRemovido = false;
-
-        while (iterator.hasNext()) {
-            Admin adm = iterator.next();
-            if (adm.getLogin().equals(adminParaRemover.getLogin()) && adm.getSenha().equals(adminParaRemover.getSenha())) {
-                iterator.remove(); // Remove da lista
-                try {
-                    admr.deletar(adm); // Remove do banco de dados
-                    System.out.println("Administrador deletado com sucesso.");
-                    adminRemovido = true;
-                } catch (SQLException e) {
-                    System.out.println("Erro ao deletar administrador do banco: " + e.getMessage());
-                }
-                break;
+    private void removerItemCardapio() {
+        String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja remover:");
+        if (nome == null || nome.trim().isEmpty()) return; // Verifica se o usuário cancelou ou não digitou nada
+    
+        boolean removido = cardapio.removerItem(nome);
+        if (removido) {
+            try {
+                ItemDao.removerItem(nome); // Remover do banco de dados, utilizando o nome
+                JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao remover item do banco de dados: " + e.getMessage());
+                e.printStackTrace(); 
             }
-        }
-
-        if (!adminRemovido) {
-            System.out.println("Administrador não encontrado ou senha incorreta.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Item não encontrado no cardápio.");
         }
     }
-
-    public void setLogin(String login) {
-        super.setLogin(login); // Chama o método da superclasse
-    }
-
-    public void setSenha(String senha) {
-        super.setSenha(senha); // Chama o método da superclasse
-    }
-
-    public Cantina getCantina() {
-        return cantina; // Retorna a cantina associada
-    }
+    
+    
 }
+
+
+

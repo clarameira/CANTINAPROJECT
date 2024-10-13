@@ -47,4 +47,28 @@ public class ItemDao {
             throw e; 
         }
     }
+
+    public static void removerItem(String nome) throws SQLException {
+        String sql = "DELETE FROM cardapio WHERE item = ?";
+        
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            
+            pstmt.setString(1, nome);
+            int linhasAfetadas = pstmt.executeUpdate();
+    
+            System.out.println("Tentativa de remoção do item: " + nome);
+            System.out.println("Linhas afetadas: " + linhasAfetadas);
+            
+            if (linhasAfetadas == 0) {
+                System.out.println("Nenhum item encontrado com o nome: " + nome);
+            } else {
+                System.out.println(linhasAfetadas + " linha(s) removida(s) com sucesso!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao remover dados: " + e.getMessage());
+            throw e; // Re-lança a exceção
+        }
+    }    
+
 }

@@ -2,39 +2,37 @@ package com.example.aplicacoes;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class Cardapio {
-    
-    public List<ItemCard> itens;
+    private List<ItemCard> itens;
 
     public Cardapio() {
-        this.itens = new ArrayList<>();
+        itens = new ArrayList<>();
     }
 
     public void adicionarItem(ItemCard item) {
         itens.add(item);
     }
 
-    public void removerItem(ItemCard item) {
-        itens.remove(item);
+    public boolean removerItem(String nome) {
+        return itens.removeIf(item -> item.getItem().equalsIgnoreCase(nome));
     }
 
     public void exibir() {
-        System.out.println("\n***************************************************************************");
-        System.out.println("                         CARDÁPIO SEMANAL:");
-        System.out.println("*****************************************************************************");
-        for (ItemCard item : itens) {
-            System.out.println("- " + item.getItem() + ": " + item.getDescricao() + " - R$" + item.getPreco());
+        if (itens.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O cardápio está vazio.");
+            return;
         }
-        System.out.println("-----------------------------------------------------------------------------");
-    }
 
-    public ItemCard buscarItem(String nome) {
+        StringBuilder sb = new StringBuilder("Itens do Cardápio:\n");
         for (ItemCard item : itens) {
-            if (item.getItem().equalsIgnoreCase(nome)) {
-                return item;
-            }
+            sb.append(item.getItem()).append(" - ").append(item.getPreco()).append(" R$\n");
         }
-        return null;
+        JOptionPane.showMessageDialog(null, sb.toString());
+    }
+    
+    public List<ItemCard> getItens() {
+        return itens;
     }
 }
