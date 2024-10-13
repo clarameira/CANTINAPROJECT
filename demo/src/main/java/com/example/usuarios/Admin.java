@@ -1,5 +1,8 @@
 package com.example.usuarios;
 
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.*;
@@ -35,52 +38,81 @@ public class Admin {
     }
 
     public void exibirMenuAdmin() throws SQLException {
-        int opcao = 0; 
-        do {
-            String menu = "     \nMenu Administrador:\n" +
-                          "      1. Exibir cardápio\n" +
-                          "      2. Adicionar ao cardápio\n" +
-                          "      3. Editar item no cardápio\n" +
-                          "      4. Remover do cardápio\n" +
-                          "      5. Sair\n" +
-                          "       Escolha uma opção:";
-            String input = JOptionPane.showInputDialog(menu);
-            if (input == null) break; // Se o usuário cancelar, sai do loop
-
-            try {
-                opcao = Integer.parseInt(input); // Converte a entrada do usuário para um inteiro
-                switch (opcao) {
-                    case 1:
+        // Criar a janela do menu do administrador
+        JFrame menuFrame = new JFrame("Menu Administrador");
+        menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menuFrame.setSize(400, 300);
+        menuFrame.setLayout(new GridLayout(0, 1));
+    
+        // Adicionar botão para exibir cardápio
+        JButton exibirCardapioButton = new JButton("Exibir cardápio");
+        exibirCardapioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
                     if (cardapio != null) {
-                        if(cont==0){
+                        if (cont == 0) {
                             cont++;
-                        ItemDao.pegarTodos(cardapio);
-                    }
+                            ItemDao.pegarTodos(cardapio);
+                        }
                         cardapio.exibir(); // Chama o método para exibir cardápio
                     } else {
-                        JOptionPane.showMessageDialog(null, "O cardápio não está disponível.");
+                        JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
                     }
-                     // Chama o método para exibir cardápio
-                        break;
-                    case 2:
-                        adicionarItemCardapio(); // Adiciona item ao cardápio
-                        break;
-                    case 3:
-                        editarItemCardapio(); // Implementar este método para edição
-                        break;
-                    case 4:
-                        removerItemCardapio(); 
-                        break;
-                    case 5:
-                        JOptionPane.showMessageDialog(null, "Saindo.");
-                        break;
-                    default:
-                        JOptionPane.showMessageDialog(null, "Opção inválida!");
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(menuFrame, "Erro ao carregar cardápio: " + ex.getMessage());
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Por favor, insira um número válido.");
             }
-        } while (opcao != 5); 
+        });
+        menuFrame.add(exibirCardapioButton);
+    
+        // Adicionar botão para adicionar item ao cardápio
+        JButton adicionarItemButton = new JButton("Adicionar ao cardápio");
+        adicionarItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    adicionarItemCardapio(); // Adiciona item ao cardápio
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(menuFrame, "Erro ao adicionar item: " + ex.getMessage());
+                }
+            }
+        });
+        menuFrame.add(adicionarItemButton);
+    
+        // Adicionar botão para editar item no cardápio
+        JButton editarItemButton = new JButton("Editar item no cardápio");
+        editarItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editarItemCardapio(); // Implementar este método para edição
+            }
+        });
+        menuFrame.add(editarItemButton);
+    
+        // Adicionar botão para remover item do cardápio
+        JButton removerItemButton = new JButton("Remover do cardápio");
+        removerItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removerItemCardapio(); 
+            }
+        });
+        menuFrame.add(removerItemButton);
+    
+        // Adicionar botão de sair
+        JButton sairButton = new JButton("Sair");
+        sairButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuFrame.dispose(); // Fecha a janela do menu
+                JOptionPane.showMessageDialog(null, "Saindo.");
+            }
+        });
+        menuFrame.add(sairButton);
+    
+        // Exibir a janela do menu
+        menuFrame.setVisible(true);
     }
 
     private void adicionarItemCardapio() throws SQLException {
