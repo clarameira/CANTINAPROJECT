@@ -1,7 +1,10 @@
 package com.example.aplicacoes;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.swing.JOptionPane;
 
 public class Cardapio {
@@ -25,14 +28,20 @@ public class Cardapio {
             return;
         }
 
+        Set<String> itensExibidos = new HashSet<>(); // Usar um Set para evitar duplicatas
         StringBuilder sb = new StringBuilder("Itens do Cardápio:\n");
         for (ItemCard item : itens) {
-            sb.append(item.getItem()).append(" - ").append(item.getPreco()).append(" R$\n");
+            if (!itensExibidos.contains(item.getItem())) { // Verificar se o item já foi exibido
+                sb.append(item.getItem()).append(" - ").append(item.getPreco()).append(" R$\n");
+                itensExibidos.add(item.getItem()); // Adicionar o item ao conjunto para evitar duplicatas
+            }
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
-    
-    public List<ItemCard> getItens() {
-        return itens;
+
+    public ItemCard[] getItens() {
+        // Supondo que 'itens' é uma List<ItemCard>
+        return itens.toArray(new ItemCard[0]); // Converte a lista de itens em um array
     }
+
 }
