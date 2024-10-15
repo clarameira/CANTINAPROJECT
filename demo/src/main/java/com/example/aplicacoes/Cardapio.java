@@ -32,7 +32,7 @@ public class Cardapio {
         StringBuilder sb = new StringBuilder("Itens do Cardápio:\n");
         for (ItemCard item : itens) {
             if (!itensExibidos.contains(item.getItem())) { // Verificar se o item já foi exibido
-                sb.append(item.getItem()).append(" - ").append(item.getPreco()).append(" R$\n");
+                sb.append(item.getItem()).append(" - ").append(item.getDescricao()).append(" - ").append(item.getPreco()).append(" R$\n");
                 itensExibidos.add(item.getItem()); // Adicionar o item ao conjunto para evitar duplicatas
             }
         }
