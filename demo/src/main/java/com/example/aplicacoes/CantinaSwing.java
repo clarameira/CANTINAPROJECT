@@ -29,7 +29,9 @@ public class CantinaSwing {
         initializeUI();
         carregarCardapio();
     }
-
+public void adicionarAdmin(Admin adm){
+    adminList.add(adm);
+}
     private void initializeUI() {
         JFrame frame = new JFrame("Sistema Cantina");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
@@ -236,4 +238,5 @@ public class CantinaSwing {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(CantinaSwing::new);
     }
+
 }
