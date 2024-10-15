@@ -22,7 +22,7 @@ public class Cardapio {
         return itens.removeIf(item -> item.getItem().equalsIgnoreCase(nome));
     }
 
-    public void exibir() {
+    public void exibirCardapio() {
         if (itens.isEmpty()) {
             JOptionPane.showMessageDialog(null, "O cardápio está vazio.");
             return;

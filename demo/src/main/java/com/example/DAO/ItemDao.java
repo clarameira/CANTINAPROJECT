@@ -48,6 +48,23 @@ public class ItemDao {
         }
     }
 
+    public static void atualizar(Cardapio cardapio) throws SQLException {
+        String sql = "UPDATE cardapio set item, descricao, preco WHERE nome = ?";
+        ItemCard item = new ItemCard("", "", 0);
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement pstmt = conexao.prepareStatement(sql))  {
+
+        pstmt.setString(1, item.getItem());
+        pstmt.setString(2, item.getDescricao());
+        pstmt.setDouble(3, item.getPreco());
+        
+        pstmt.executeUpdate(sql);
+        } catch (Exception e) {
+           
+        }
+        
+    }
+
     public static void removerItem(String nome) throws SQLException {
         String sql = "DELETE FROM cardapio WHERE item = ?";
         

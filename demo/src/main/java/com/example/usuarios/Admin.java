@@ -67,7 +67,7 @@ public class Admin {
                             cont++;
                             ItemDao.pegarTodos(cardapio);
                         }
-                        cardapio.exibir(); // Chama o método para exibir cardápio
+                        cardapio.exibirCardapio(); // Chama o método para exibir cardápio
                     } else {
                         JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
                     }
@@ -186,7 +186,9 @@ public class Admin {
 
     private void editarItemCardapio() {
         
-        JOptionPane.showMessageDialog(null, "Funcionalidade de edição não implementada ainda.");
+        String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja editar:");
+        if (nome == null || nome.trim().isEmpty()) return;
+        
     }
 
     private void removerItemCardapio() {
