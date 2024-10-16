@@ -239,7 +239,7 @@ public class CantinaSwing {
                 JOptionPane.showMessageDialog(null, "Já existe um cliente com esse login.");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar cliente: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "login já existe");
         }
     }
 
