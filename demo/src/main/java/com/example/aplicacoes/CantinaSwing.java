@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.usuarios.Admin;
+import com.example.usuarios.Cliente;
 import com.example.DAO.AdminDao;
 import com.example.DAO.ItemDao;
+import com.example.DAO.ClienteDao;
 
 public class CantinaSwing {
     private List<Admin> adminList;
     private AdminDao adminDao;
+    private ClienteDao clienteDao;
     private Cardapio cardapio;
 
     private JTextField loginField;  // Campo de texto para login
@@ -25,6 +28,7 @@ public class CantinaSwing {
     public CantinaSwing() {
         this.adminList = new ArrayList<>();
         this.adminDao = new AdminDao();
+        this.clienteDao = new ClienteDao();
         this.cardapio = new Cardapio();
         initializeUI();
         carregarCardapio();
@@ -186,12 +190,20 @@ public void adicionarAdmin(Admin adm){
         }
     }
 
-    // Método para logar cliente
-    private void loginCliente(String login, String senha) {
-        // Adicione aqui a lógica para verificar as credenciais do cliente
-        JOptionPane.showMessageDialog(null, "Login de cliente realizado com sucesso!");
-        // Direcionar para o menu do cliente após o login bem-sucedido
+ private void loginCliente(String login, String senha) {
+    try {
+        Cliente cliente = clienteDao.validarLogin(login, senha); // Validação do login do cliente
+        if (cliente != null) {
+            JOptionPane.showMessageDialog(null, "Login de cliente realizado com sucesso!");
+            cliente.exibirMenuCliente();  // Exibir menu para o cliente
+        } else {
+            JOptionPane.showMessageDialog(null, "Login ou senha de cliente inválidos!");
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Erro ao validar login: " + ex.getMessage());
     }
+}
+
 
     // Método para cadastrar administrador
     private void createAdmin(String login, String senha) {
