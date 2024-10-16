@@ -39,14 +39,16 @@ public class Cliente {
         // Criar a janela do menu do cliente
         JFrame menuFrame = new JFrame("Menu Cliente");
         menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        menuFrame.getContentPane().setBackground(Color.WHITE); 
+        menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
+        menuFrame.getContentPane().setBackground(Color.WHITE); // Fundo branco
         
+        // Painel para organizar os botões verticalmente
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBackground(Color.WHITE); 
+        buttonPanel.setBackground(Color.WHITE); // Fundo branco do painel
         
-        Dimension buttonSize = new Dimension(1500, 300); 
+        // Tamanho preferido dos botões
+        Dimension buttonSize = new Dimension(100, 25); 
         
         // Adicionar botão para exibir cardápio
         JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "caminho/para/imagem_exibir.png", buttonSize);
@@ -59,7 +61,7 @@ public class Cliente {
                             cont++;
                             ItemDao.pegarTodos(cardapio);
                         }
-                        cardapio.exibirCardapio(); 
+                        cardapio.exibirCardapio(); // Chama o método para exibir cardápio
                     } else {
                         JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
                     }
@@ -71,12 +73,12 @@ public class Cliente {
         buttonPanel.add(exibirCardapioButton);
         buttonPanel.add(Box.createVerticalStrut(20)); // Espaçamento entre os botões
         
-        // Adiciona botão de sair
+        // Adicionar botão de sair
         JButton sairButton = criarBotao("Sair", "caminho/para/imagem_sair.png", buttonSize);
         sairButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuFrame.dispose(); 
+                menuFrame.dispose(); // Fecha a janela do menu
                 JOptionPane.showMessageDialog(null, "Saindo.");
             }
         });
@@ -85,12 +87,13 @@ public class Cliente {
         // Adiciona o painel de botões à janela
         menuFrame.add(buttonPanel);
         
-        // Exibe a janela do menu
+        // Exibir a janela do menu
         menuFrame.setVisible(true);
     }
     
+    // Método auxiliar para criar botões com ícone e texto centralizados
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
-        // Usando HTML para centralizar o texto
+        // Usa HTML para centralizar o texto
         JButton botao = new JButton("<html><center>" + texto + "</center></html>", new ImageIcon(caminhoIcone));
         botao.setBackground(new Color(255, 165, 0)); // Laranja
         botao.setForeground(Color.WHITE); // Texto branco
