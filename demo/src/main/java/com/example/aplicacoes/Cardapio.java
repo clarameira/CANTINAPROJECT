@@ -34,17 +34,15 @@ public class Cardapio {
             return;
         }
 
-        // Criar um novo JFrame para exibir o cardápio
         JFrame cardapioFrame = new JFrame("CARDÁPIO");
         cardapioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         cardapioFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Tela cheia
         cardapioFrame.setLayout(new BorderLayout());
 
-        // Criar uma tabela com colunas "Item", "Descrição" e "Preço"
         String[] colunas = { "ITEM", "DESCRIÇÃO", "PREÇO (R$)" };
         DefaultTableModel tableModel = new DefaultTableModel(colunas, 0);
 
-        // Usar um Set para evitar duplicatas
+        // Set para evitar duplicatas
         Set<String> itensExibidos = new HashSet<>();
 
         // Preencher a tabela com os itens do cardápio
@@ -64,7 +62,7 @@ public class Cardapio {
         tabela.getTableHeader().setForeground(new Color(255, 165, 0));
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        // Personalização das cores das linhas da tabela
+        // Personalizando as cores das linhas da tabela
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
@@ -80,12 +78,12 @@ public class Cardapio {
             }
         };
 
-        // Aplicar o renderer às células da tabela
+        // Aplica o renderer às células da tabela
         for (int i = 0; i < tabela.getColumnCount(); i++) {
             tabela.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
-        // Adicionar a tabela dentro de um JScrollPane para habilitar rolagem
+        // Adiciona a tabela dentro de um JScrollPane para habilitar rolagem
         JScrollPane scrollPane = new JScrollPane(tabela);
         cardapioFrame.add(scrollPane, BorderLayout.CENTER);
 

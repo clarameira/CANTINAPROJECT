@@ -21,7 +21,7 @@ public class AdminDao {
             System.out.println(linhasAfetadas + " linha(s) inserida(s) com sucesso!");
         } catch (SQLException e) {
             System.err.println("Erro ao inserir dados:");
-            throw e; // Repropaga a exceção
+            throw e; 
         }
     }
 
@@ -41,7 +41,7 @@ public class AdminDao {
             }
         } catch (SQLException e) {
             e.printStackTrace(); 
-            throw e; // Repropaga a exceção
+            throw e; 
         } 
     }
     
@@ -70,8 +70,8 @@ public class AdminDao {
         } catch (SQLException e) {
             System.err.println("Erro ao validar login:");
             e.printStackTrace();
-            throw e; // Repropaga a exceção
+            throw e; 
         }
-        return null; // Retorna null se não encontrar o admin
+        return null; 
     }
 }

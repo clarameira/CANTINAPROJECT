@@ -12,7 +12,6 @@ public class ItemCard {
         this.preco = preco;
     }
 
-    // Getters
     public String getItem() {
         return item;
     }
