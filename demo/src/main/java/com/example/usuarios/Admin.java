@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.awt.BorderLayout;
 
 import javax.swing.*;
 
@@ -25,10 +26,9 @@ public class Admin {
         this.login = login;
         this.senha = senha;
         this.cardapio = new Cardapio();
-        this.cont = 0; 
+        this.cont = 0;
     }
 
-    // Getters
     public String getLogin() {
         return login;
     }
@@ -42,21 +42,32 @@ public class Admin {
     }
 
     public void exibirMenuAdmin() throws SQLException {
-        // Criar a janela do menu do administrador
+
         JFrame menuFrame = new JFrame("Menu Administrador");
         menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
-        menuFrame.getContentPane().setBackground(Color.WHITE); // Fundo branco
-        
-        // Painel para organizar os botões verticalmente
+        menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        menuFrame.getContentPane().setBackground(Color.WHITE);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(255, 165, 0));
+        JLabel titleLabel = new JLabel("PedeAqui!", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel);
+        mainPanel.add(titlePanel, BorderLayout.NORTH);
+
+        // Painel para organizar os botões à esquerda
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBackground(Color.WHITE); // Fundo branco do painel
-        
-        // Tamanho preferido dos botões
-        Dimension buttonSize = new Dimension(1500, 300); 
-        
-        // Adicionar botão para exibir cardápio
+
+        buttonPanel.add(Box.createVerticalStrut(10));
+
+        Dimension buttonSize = new Dimension(600, 200);
+
         JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "caminho/para/imagem_exibir.png", buttonSize);
         exibirCardapioButton.addActionListener(new ActionListener() {
             @Override
@@ -67,7 +78,7 @@ public class Admin {
                             cont++;
                             ItemDao.pegarTodos(cardapio);
                         }
-                        cardapio.exibirCardapio(); // Chama o método para exibir cardápio
+                        cardapio.exibirCardapio();
                     } else {
                         JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
                     }
@@ -77,35 +88,32 @@ public class Admin {
             }
         });
         buttonPanel.add(exibirCardapioButton);
-        buttonPanel.add(Box.createVerticalStrut(20)); // Espaçamento entre os botões
-        
-        // Adicionar botão para adicionar item ao cardápio
+        buttonPanel.add(Box.createVerticalStrut(20));
+
         JButton adicionarItemButton = criarBotao("Adicionar Item", "caminho/para/imagem_adicionar.png", buttonSize);
         adicionarItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    adicionarItemCardapio(); // Adiciona item ao cardápio
+                    adicionarItemCardapio();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(menuFrame, "Erro ao adicionar item: " + ex.getMessage());
                 }
             }
         });
         buttonPanel.add(adicionarItemButton);
-        buttonPanel.add(Box.createVerticalStrut(20)); // Espaçamento entre os botões
-        
-        // Adicionar botão para editar item no cardápio
+        buttonPanel.add(Box.createVerticalStrut(20));
+
         JButton editarItemButton = criarBotao("Editar Item", "caminho/para/imagem_editar.png", buttonSize);
         editarItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editarItemCardapio(); // Implementar este método para edição
+                editarItemCardapio();
             }
         });
         buttonPanel.add(editarItemButton);
-        buttonPanel.add(Box.createVerticalStrut(20)); // Espaçamento entre os botões
-        
-        // Adicionar botão para remover item do cardápio
+        buttonPanel.add(Box.createVerticalStrut(20));
+
         JButton removerItemButton = criarBotao("Remover Item", "caminho/para/imagem_remover.png", buttonSize);
         removerItemButton.addActionListener(new ActionListener() {
             @Override
@@ -114,58 +122,82 @@ public class Admin {
             }
         });
         buttonPanel.add(removerItemButton);
-        buttonPanel.add(Box.createVerticalStrut(20)); // Espaçamento entre os botões
-        
-        // Adicionar botão de sair
+        buttonPanel.add(Box.createVerticalStrut(20));
+
         JButton sairButton = criarBotao("Sair", "caminho/para/imagem_sair.png", buttonSize);
         sairButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuFrame.dispose(); // Fecha a janela do menu
+                menuFrame.dispose();
                 JOptionPane.showMessageDialog(null, "Saindo.");
             }
         });
         buttonPanel.add(sairButton);
-        
-        // Adiciona o painel de botões à janela
-        menuFrame.add(buttonPanel);
-        
-        // Exibir a janela do menu
+        buttonPanel.add(Box.createVerticalGlue());
+
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(Color.WHITE);
+
+        JPanel rightPanel = new JPanel();
+        rightPanel.setBackground(Color.WHITE);
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.add(Box.createVerticalStrut(250)); // Espaço de 150 pixels no topo do painel de pedidos
+
+        JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "caminho/para/imagem_verificar.png",
+                buttonSize);
+        verificarPedidosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                verificarPedidos();
+            }
+        });
+        rightPanel.add(verificarPedidosButton);
+        rightPanel.add(Box.createVerticalGlue());
+
+        mainPanel.add(buttonPanel, BorderLayout.WEST);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+
+        menuFrame.add(mainPanel);
+
         menuFrame.setVisible(true);
     }
-    
-    // Método auxiliar para criar botões com ícone e texto centralizados
+
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
-        // Usa HTML para centralizar o texto
         JButton botao = new JButton("<html><center>" + texto + "</center></html>", new ImageIcon(caminhoIcone));
-        botao.setBackground(new Color(255, 165, 0)); // Laranja
-        botao.setForeground(Color.WHITE); // Texto branco
-        botao.setPreferredSize(tamanho); // Define o tamanho do botão
-        botao.setFont(new Font("Arial", Font.PLAIN, 20)); // Tamanho da fonte
+        botao.setBackground(new Color(255, 165, 0));
+        botao.setForeground(Color.WHITE);
+        botao.setPreferredSize(tamanho); // botão
+        botao.setFont(new Font("Arial", Font.PLAIN, 20));
         botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
-        botao.setVerticalTextPosition(SwingConstants.BOTTOM);   // Coloca o texto abaixo do ícone
+        botao.setVerticalTextPosition(SwingConstants.BOTTOM);
         botao.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o botão
         botao.setMargin(new Insets(10, 10, 10, 10)); // Define margens para evitar que o texto seja cortado
+
         return botao;
     }
-    
+
+    private void verificarPedidos() {
+        JOptionPane.showMessageDialog(null, "Função de verificar pedidos ainda não implementada.");
+    }
+
     private void adicionarItemCardapio() throws SQLException {
         String nome = JOptionPane.showInputDialog("Digite o nome do item:");
         String descricao = JOptionPane.showInputDialog("Digite a descrição do item:");
-        
+
         double preco;
         while (true) {
             String precoInput = JOptionPane.showInputDialog("Digite o preço do item:");
-            if (precoInput == null) return; // Se o usuário cancelar, sai do método
+            if (precoInput == null)
+                return;
             try {
                 preco = Double.parseDouble(precoInput);
-                break; // Sai do loop se a conversão for bem-sucedida
+                break;
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Preço inválido. Tente novamente.");
             }
         }
-    
-        // Verificar se o item já existe no cardápio antes de adicionar
+
         boolean itemExistente = false;
         for (ItemCard item : cardapio.getItens()) {
             if (item.getItem().equalsIgnoreCase(nome)) {
@@ -173,7 +205,7 @@ public class Admin {
                 break;
             }
         }
-    
+
         if (!itemExistente) {
             ItemCard novoItem = new ItemCard(nome, descricao, preco);
             cardapio.adicionarItem(novoItem);
@@ -185,16 +217,18 @@ public class Admin {
     }
 
     private void editarItemCardapio() {
-        
+
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja editar:");
-        if (nome == null || nome.trim().isEmpty()) return;
-        
+        if (nome == null || nome.trim().isEmpty())
+            return;
+
     }
 
     private void removerItemCardapio() {
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja remover:");
-        if (nome == null || nome.trim().isEmpty()) return; // Verifica se o usuário cancelou ou não digitou nada
-    
+        if (nome == null || nome.trim().isEmpty())
+            return; // Verifica se o usuário cancelou ou não digitou nada
+
         boolean removido = cardapio.removerItem(nome);
         if (removido) {
             try {
@@ -202,7 +236,7 @@ public class Admin {
                 JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao remover item do banco de dados: " + e.getMessage());
-                e.printStackTrace(); 
+                e.printStackTrace();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Item não encontrado no cardápio.");
@@ -210,5 +244,3 @@ public class Admin {
     }
 
 }
-
-
