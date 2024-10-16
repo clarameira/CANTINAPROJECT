@@ -43,18 +43,18 @@ public void adicionarAdmin(Admin adm){
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setBackground(Color.WHITE);  // Fundo branco
+        panel.setBackground(Color.WHITE);  
 
-        // Painel para o cabeçalho
+        // Painel do cabeçalho
         JPanel headerPanel = new JPanel();
-        headerPanel.setBackground(new Color(255, 165, 0));  // Laranja
-        JLabel headerLabel = new JLabel("Bem-vindo ao Sistema Cantina");
+        headerPanel.setBackground(new Color(255, 165, 0)); 
+        JLabel headerLabel = new JLabel("Bem-vindo ao PedeAqui!");
         headerLabel.setFont(new Font("Arial", Font.BOLD, 30));
         headerLabel.setForeground(Color.WHITE);
         headerPanel.add(headerLabel);
         panel.add(headerPanel, BorderLayout.NORTH);
 
-        // Painel central para o formulário de login/cadastro
+        // Painel central do formulário de login/cadastro
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridBagLayout());
         formPanel.setBackground(Color.WHITE);
@@ -62,7 +62,7 @@ public void adicionarAdmin(Admin adm){
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Campo de seleção de tipo de usuário (Cliente ou Administrador)
+        // Campo de seleção de tipo de usuário 
         JLabel userTypeLabel = new JLabel("Selecione o tipo de usuário:");
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -74,24 +74,22 @@ public void adicionarAdmin(Admin adm){
         gbc.gridy = 0;
         formPanel.add(userTypeComboBox, gbc);
 
-        // Campo de texto para login
         JLabel loginLabel = new JLabel("Login:");
         gbc.gridx = 0;
         gbc.gridy = 1;
         formPanel.add(loginLabel, gbc);
 
-        loginField = new JTextField(20);  // Campo de login
+        loginField = new JTextField(20);  
         gbc.gridx = 1;
         gbc.gridy = 1;
         formPanel.add(loginField, gbc);
 
-        // Campo de texto para senha
         JLabel senhaLabel = new JLabel("Senha:");
         gbc.gridx = 0;
         gbc.gridy = 2;
         formPanel.add(senhaLabel, gbc);
 
-        senhaField = new JPasswordField(20);  // Campo de senha
+        senhaField = new JPasswordField(20);  
         gbc.gridx = 1;
         gbc.gridy = 2;
         formPanel.add(senhaField, gbc);
@@ -139,7 +137,7 @@ public void adicionarAdmin(Admin adm){
 
         // Painel de rodapé
         JPanel footerPanel = new JPanel();
-        footerPanel.setBackground(new Color(255, 165, 0));  // Laranja
+        footerPanel.setBackground(new Color(255, 165, 0));  
         JLabel footerLabel = new JLabel("Desenvolvido por Fernanda Rocha, Maria Clara Meira e Maria Herculana.");
         footerLabel.setForeground(Color.WHITE);
         footerPanel.add(footerLabel);
@@ -152,8 +150,8 @@ public void adicionarAdmin(Admin adm){
     // Método que lida com o botão de login
     private void loginAction(ActionEvent e) {
         String userType = (String) userTypeComboBox.getSelectedItem();  // Obter o tipo de usuário selecionado
-        String login = loginField.getText();  // Obter o login
-        String senha = new String(senhaField.getPassword());  // Obter a senha
+        String login = loginField.getText();  
+        String senha = new String(senhaField.getPassword());  
 
         if ("Administrador".equals(userType)) {
             loginAdmin(login, senha);
@@ -165,8 +163,8 @@ public void adicionarAdmin(Admin adm){
     // Método que lida com o botão de cadastro
     private void cadastroAction(ActionEvent e) {
         String userType = (String) userTypeComboBox.getSelectedItem();  // Obter o tipo de usuário selecionado
-        String login = loginField.getText();  // Obter o login
-        String senha = new String(senhaField.getPassword());  // Obter a senha
+        String login = loginField.getText(); 
+        String senha = new String(senhaField.getPassword()); 
 
         if ("Administrador".equals(userType)) {
             createAdmin(login, senha);
@@ -238,7 +236,7 @@ public void adicionarAdmin(Admin adm){
         return false;
     }
 
-    // Carregar cardápio (apenas exemplo)
+    // Carregar cardápio 
     private void carregarCardapio() {
         try {
             ItemDao.pegarTodos(cardapio);

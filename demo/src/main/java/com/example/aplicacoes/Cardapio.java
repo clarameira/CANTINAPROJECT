@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.awt.*;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class Cardapio {
     private List<ItemCard> itens;
@@ -28,19 +34,65 @@ public class Cardapio {
             return;
         }
 
-        Set<String> itensExibidos = new HashSet<>(); // Usar um Set para evitar duplicatas
-        StringBuilder sb = new StringBuilder("Itens do Cardápio:\n");
+        // Criar um novo JFrame para exibir o cardápio
+        JFrame cardapioFrame = new JFrame("CARDÁPIO");
+        cardapioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        cardapioFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Tela cheia
+        cardapioFrame.setLayout(new BorderLayout());
+
+        // Criar uma tabela com colunas "Item", "Descrição" e "Preço"
+        String[] colunas = { "ITEM", "DESCRIÇÃO", "PREÇO (R$)" };
+        DefaultTableModel tableModel = new DefaultTableModel(colunas, 0);
+
+        // Usar um Set para evitar duplicatas
+        Set<String> itensExibidos = new HashSet<>();
+
+        // Preencher a tabela com os itens do cardápio
         for (ItemCard item : itens) {
-            if (!itensExibidos.contains(item.getItem())) { // Verificar se o item já foi exibido
-                sb.append(item.getItem()).append(" - ").append(item.getDescricao()).append(" - ").append(item.getPreco()).append(" R$\n");
-                itensExibidos.add(item.getItem()); // Adicionar o item ao conjunto para evitar duplicatas
+            if (!itensExibidos.contains(item.getItem())) {
+                Object[] rowData = { item.getItem(), item.getDescricao(), String.format("%.2f", item.getPreco()) };
+                tableModel.addRow(rowData);
+                itensExibidos.add(item.getItem());
             }
         }
-        JOptionPane.showMessageDialog(null, sb.toString());
+
+        JTable tabela = new JTable(tableModel);
+        tabela.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        tabela.setRowHeight(30);
+        tabela.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 18));
+        tabela.getTableHeader().setBackground(Color.WHITE);
+        tabela.getTableHeader().setForeground(new Color(255, 165, 0));
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        // Personalização das cores das linhas da tabela
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (row % 2 == 0) {
+                    c.setBackground(new Color(255, 228, 196));
+                } else {
+                    c.setBackground(Color.WHITE);
+                }
+                c.setForeground(Color.BLACK);
+                return c;
+            }
+        };
+
+        // Aplicar o renderer às células da tabela
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            tabela.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
+        }
+
+        // Adicionar a tabela dentro de um JScrollPane para habilitar rolagem
+        JScrollPane scrollPane = new JScrollPane(tabela);
+        cardapioFrame.add(scrollPane, BorderLayout.CENTER);
+
+        cardapioFrame.setVisible(true);
     }
 
     public ItemCard[] getItens() {
-        // Supondo que 'itens' é uma List<ItemCard>
         return itens.toArray(new ItemCard[0]); // Converte a lista de itens em um array
     }
 
