@@ -21,7 +21,7 @@ public class ClienteDao {
             int linhasAfetadas = pstmt.executeUpdate();
             System.out.println(linhasAfetadas + " cliente(s) inserido(s) com sucesso!");
         } catch (SQLException e) {
-            System.err.println("Erro ao inserir cliente:");
+            System.err.println("Erro ao inserir dados:");
             throw e; // Repropaga a exceção
         }
     }
@@ -61,18 +61,19 @@ public class ClienteDao {
         try (Connection conexao = Conexao.conectar();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
 
-            pstmt.setString(1, login);
-            pstmt.setString(2, senha);
-            
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return new Cliente(rs.getString("login"), rs.getString("senha")); // Retorna o cliente
-            }
-        } catch (SQLException e) {
-            System.err.println("Erro ao validar login do cliente:");
-            e.printStackTrace();
-            throw e; // Repropaga a exceção
+        pstmt.setString(1, login);
+        pstmt.setString(2, senha);
+        
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return new Cliente(rs.getString("login"), rs.getString("senha")); // Ajuste conforme sua lógica de cliente
         }
-        return null; // Retorna null se não encontrar o cliente
+    } catch (SQLException e) {
+        System.err.println("Erro ao validar login:");
+        e.printStackTrace();
+        throw e; // Repropaga a exceção
     }
+    return null; // Retorna null se não encontrar o cliente
+}
+
 }

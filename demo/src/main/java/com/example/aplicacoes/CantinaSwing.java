@@ -20,11 +20,11 @@ public class CantinaSwing {
     private ClienteDao clienteDao;
     private Cardapio cardapio;
 
-    private JTextField loginField;  // Campo de texto para login
-    private JPasswordField senhaField;  // Campo de texto para senha
-    private JComboBox<String> userTypeComboBox;  // Campo de seleção do tipo de usuário
-    private JButton loginButton;  // Botão de login
-    private JButton cadastroButton;  // Botão de cadastro
+    private JTextField loginField;  
+    private JPasswordField senhaField;  
+    private JComboBox<String> userTypeComboBox;  
+    private JButton loginButton; 
+    private JButton cadastroButton; 
 
     public CantinaSwing() {
         this.clienteList = new ArrayList<>();
@@ -155,9 +155,8 @@ public class CantinaSwing {
         frame.setVisible(true);
     }
 
-    // Método que lida com o botão de login
     private void loginAction(ActionEvent e) {
-        String userType = (String) userTypeComboBox.getSelectedItem();  // Obter o tipo de usuário selecionado
+        String userType = (String) userTypeComboBox.getSelectedItem();  
         String login = loginField.getText();  
         String senha = new String(senhaField.getPassword());  
 
@@ -168,9 +167,8 @@ public class CantinaSwing {
         }
     }
 
-    // Método que lida com o botão de cadastro
     private void cadastroAction(ActionEvent e) {
-        String userType = (String) userTypeComboBox.getSelectedItem();  // Obter o tipo de usuário selecionado
+        String userType = (String) userTypeComboBox.getSelectedItem();  
         String login = loginField.getText(); 
         String senha = new String(senhaField.getPassword()); 
 
