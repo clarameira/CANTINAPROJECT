@@ -15,6 +15,7 @@ import com.example.DAO.ClienteDao;
 
 public class CantinaSwing {
     private List<Admin> adminList;
+    private List<Cliente> clienteList;
     private AdminDao adminDao;
     private ClienteDao clienteDao;
     private Cardapio cardapio;
@@ -26,6 +27,7 @@ public class CantinaSwing {
     private JButton cadastroButton;  // Botão de cadastro
 
     public CantinaSwing() {
+        this.clienteList = new ArrayList<>();
         this.adminList = new ArrayList<>();
         this.adminDao = new AdminDao();
         this.clienteDao = new ClienteDao();
@@ -33,9 +35,15 @@ public class CantinaSwing {
         initializeUI();
         carregarCardapio();
     }
-public void adicionarAdmin(Admin adm){
-    adminList.add(adm);
-}
+
+    public void adicionarAdmin(Admin adm) {
+        adminList.add(adm);
+    }
+
+    public void adicionarCliente(Cliente cli) {
+        clienteList.add(cli);
+    }
+
     private void initializeUI() {
         JFrame frame = new JFrame("Sistema Cantina");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
@@ -188,20 +196,20 @@ public void adicionarAdmin(Admin adm){
         }
     }
 
- private void loginCliente(String login, String senha) {
-    try {
-        Cliente cliente = clienteDao.validarLogin(login, senha); // Validação do login do cliente
-        if (cliente != null) {
-            JOptionPane.showMessageDialog(null, "Login de cliente realizado com sucesso!");
-            cliente.exibirMenuCliente();  // Exibir menu para o cliente
-        } else {
-            JOptionPane.showMessageDialog(null, "Login ou senha de cliente inválidos!");
+    // Método para logar cliente
+    private void loginCliente(String login, String senha) {
+        try {
+            Cliente cliente = clienteDao.validarLogin(login, senha); // Validação do login do cliente
+            if (cliente != null) {
+                JOptionPane.showMessageDialog(null, "Login de cliente realizado com sucesso!");
+                cliente.exibirMenuCliente();  // Exibir menu para o cliente
+            } else {
+                JOptionPane.showMessageDialog(null, "Login ou senha de cliente inválidos!");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao validar login: " + ex.getMessage());
         }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Erro ao validar login: " + ex.getMessage());
     }
-}
-
 
     // Método para cadastrar administrador
     private void createAdmin(String login, String senha) {
@@ -222,14 +230,35 @@ public void adicionarAdmin(Admin adm){
 
     // Método para cadastrar cliente
     private void createCliente(String login, String senha) {
-        // Adicione aqui a lógica para cadastrar um novo cliente
-        JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+        Cliente newCliente = new Cliente(login, senha); // Cria um novo objeto Cliente
+
+        try {
+            if (!clienteExists(login)) {
+                clienteDao.inserirUsuario(newCliente); // Chama o método para inserir o cliente no banco
+                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+                clienteList.add(newCliente); // Adiciona à lista local de clientes
+            } else {
+                JOptionPane.showMessageDialog(null, "Já existe um cliente com esse login.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar cliente: " + ex.getMessage());
+        }
     }
 
     // Verificar se o administrador já existe
     private boolean adminExists(String login) {
         for (Admin admin : adminList) {
             if (admin.getLogin().equals(login)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Verificar se o cliente já existe
+    private boolean clienteExists(String login) {
+        for (Cliente cliente : clienteList) {
+            if (cliente.getLogin().equals(login)) {
                 return true;
             }
         }
@@ -248,5 +277,5 @@ public void adicionarAdmin(Admin adm){
     public static void main(String[] args) {
         SwingUtilities.invokeLater(CantinaSwing::new);
     }
-
 }
+
