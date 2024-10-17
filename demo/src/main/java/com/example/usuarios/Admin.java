@@ -257,17 +257,18 @@ public class Admin {
         itemParaEditar.setPreco(novoPreco);
     
         try {
-            ItemDao.atualizarItem(itemParaEditar); // Atualiza o item no banco de dados
+            ItemDao.atualizarItem(itemParaEditar, nome); // Passa o nome original
             JOptionPane.showMessageDialog(null, "Item atualizado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar item no banco de dados: " + e.getMessage());
         }
-    }
+    }    
     
+
     private void removerItemCardapio() {
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja remover:");
         if (nome == null || nome.trim().isEmpty())
-            return; 
+            return; // Verifica se o usuário cancelou ou não digitou nada
 
         boolean removido = cardapio.removerItem(nome);
         if (removido) {
