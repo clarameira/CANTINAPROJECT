@@ -29,16 +29,16 @@ public class ItemDao {
 
     public static void pegarTodos(Cardapio cardapio) throws SQLException {
         String sql = "SELECT item, descricao, preco FROM cardapio"; 
-
+    
         try (Connection conn = Conexao.conectar();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-
+    
             while (rs.next()) {
                 String item = rs.getString("item");
                 String descricao = rs.getString("descricao");
                 double preco = rs.getDouble("preco");
-
+    
                 ItemCard it = new ItemCard(item, descricao, preco); 
                 cardapio.adicionarItem(it); 
             }
@@ -47,24 +47,30 @@ public class ItemDao {
             throw e; 
         }
     }
+    
 
-    public static void atualizar(Cardapio cardapio) throws SQLException {
-        String sql = "UPDATE cardapio set item, descricao, preco WHERE nome = ?";
-        ItemCard item = new ItemCard("", "", 0);
+    public static void atualizarItem(ItemCard item) throws SQLException {
+        String sql = "UPDATE cardapio SET item = ?, descricao = ?, preco = ? WHERE item = ?"; 
         try (Connection conexao = Conexao.conectar();
-             PreparedStatement pstmt = conexao.prepareStatement(sql))  {
-
-        pstmt.setString(1, item.getItem());
-        pstmt.setString(2, item.getDescricao());
-        pstmt.setDouble(3, item.getPreco());
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
         
-        pstmt.executeUpdate(sql);
-        } catch (Exception e) {
-           
+            pstmt.setString(1, item.getItem()); // Novo nome do item
+            pstmt.setString(2, item.getDescricao());
+            pstmt.setDouble(3, item.getPreco());
+            pstmt.setString(4, item.getItem()); // Nome do item original para a condição WHERE
+    
+            int linhasAfetadas = pstmt.executeUpdate();
+            if (linhasAfetadas == 0) {
+                System.out.println("Nenhum item encontrado com o nome: " + item.getItem());
+            } else {
+                System.out.println(linhasAfetadas + " linha(s) atualizada(s) com sucesso!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar dados: " + e.getMessage());
+            throw e; // Re-lança a exceção
         }
-        
-    }
-
+    }      
+    
     public static void removerItem(String nome) throws SQLException {
         String sql = "DELETE FROM cardapio WHERE item = ?";
         
@@ -86,6 +92,6 @@ public class ItemDao {
             System.err.println("Erro ao remover dados: " + e.getMessage());
             throw e; // Re-lança a exceção
         }
-    }    
+    }
 
 }

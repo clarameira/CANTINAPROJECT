@@ -65,7 +65,7 @@ public class AdminDao {
             
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Admin(rs.getString("login"), rs.getString("senha")); // Ajuste conforme sua lógica
+                return new Admin(rs.getString("login"), rs.getString("senha")); 
             }
         } catch (SQLException e) {
             System.err.println("Erro ao validar login:");

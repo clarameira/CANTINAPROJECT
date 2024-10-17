@@ -20,6 +20,18 @@ public class ItemCard {
         return descricao;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
+    }
+
     public double getPreco() {
         return preco;
     }
