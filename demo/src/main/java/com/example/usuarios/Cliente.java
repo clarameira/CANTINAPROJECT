@@ -8,11 +8,15 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.swing.*;
 
 import com.example.DAO.ItemDao;
+import com.example.DAO.PedidoDao;
 import com.example.aplicacoes.Cardapio;
+import com.example.aplicacoes.ItemCard;
+import com.example.aplicacoes.Pedido;
 
 public class Cliente {
     private Cardapio cardapio;
@@ -72,6 +76,21 @@ public class Cliente {
         });
         buttonPanel.add(exibirCardapioButton);
         buttonPanel.add(Box.createVerticalStrut(20)); // Espaçamento entre os botões
+
+        // Adicionar botão para fazer pedido
+        JButton fazerPedidoButton = criarBotao("Fazer Pedido", "caminho/para/imagem_pedido.png", buttonSize);
+        fazerPedidoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    fazerPedido();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(menuFrame, "Erro ao fazer pedido: " + ex.getMessage());
+                }
+            }
+        });
+        buttonPanel.add(fazerPedidoButton);
+        buttonPanel.add(Box.createVerticalStrut(20)); // Espaçamento entre os botões
         
         // Adicionar botão de sair
         JButton sairButton = criarBotao("Sair", "caminho/para/imagem_sair.png", buttonSize);
@@ -90,6 +109,48 @@ public class Cliente {
         // Exibir a janela do menu
         menuFrame.setVisible(true);
     }
+
+    // Método para fazer o pedido
+    public void fazerPedido() throws SQLException {
+        if (cardapio == null || cardapio.getItens().length == 0) {
+            JOptionPane.showMessageDialog(null, "O cardápio está vazio ou não está disponível.");
+            return;
+        }
+
+        // Exibir opções do cardápio para o cliente selecionar
+        String[] opcoes = Arrays.stream(cardapio.getItens()).map(ItemCard::getItem).toArray(String[]::new);
+        String itemSelecionado = (String) JOptionPane.showInputDialog(
+                null,
+                "Selecione o item que deseja pedir:",
+                "Fazer Pedido",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                opcoes,
+                opcoes[0]
+        );
+
+        // Se o cliente cancelou ou não escolheu um item
+        if (itemSelecionado == null || itemSelecionado.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhum item foi selecionado.");
+            return;
+        }
+
+        // Procura o item no cardápio
+        ItemCard itemPedido = Arrays.stream(cardapio.getItens())
+            .filter(item -> item.getItem().equals(itemSelecionado))
+            .findFirst()
+            .orElse(null);
+
+        if (itemPedido != null) {
+            // Cria um novo pedido e insere no banco de dados
+            Pedido pedido = new Pedido(this.login, itemPedido.getItem(), cont);
+            PedidoDao.inserirPedido(pedido);
+
+            JOptionPane.showMessageDialog(null, "Pedido realizado com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao selecionar o item do cardápio.");
+        }
+    }
     
     // Método auxiliar para criar botões com ícone e texto centralizados
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
@@ -106,4 +167,5 @@ public class Cliente {
         return botao;
     }
 }
+
 
