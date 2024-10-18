@@ -1,5 +1,7 @@
 package com.example.usuarios;
 
+import java.awt.Image; 
+import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -68,7 +70,7 @@ public class Admin {
 
         Dimension buttonSize = new Dimension(600, 200);
 
-        JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "caminho/para/imagem_exibir.png", buttonSize);
+        JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\cardapio.png", buttonSize);
         exibirCardapioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,7 +126,7 @@ public class Admin {
         buttonPanel.add(removerItemButton);
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        JButton sairButton = criarBotao("Sair", "caminho/para/imagem_sair.png", buttonSize);
+        JButton sairButton = criarBotao("Sair", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\sair.png", buttonSize);
         sairButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -164,18 +166,25 @@ public class Admin {
     }
 
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
-        JButton botao = new JButton("<html><center>" + texto + "</center></html>", new ImageIcon(caminhoIcone));
-        botao.setBackground(new Color(255, 165, 0));
-        botao.setForeground(Color.WHITE);
-        botao.setPreferredSize(tamanho); // botão
-        botao.setFont(new Font("Arial", Font.PLAIN, 20));
-        botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
-        botao.setVerticalTextPosition(SwingConstants.BOTTOM);
-        botao.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o botão
-        botao.setMargin(new Insets(10, 10, 10, 10)); // Define margens para evitar que o texto seja cortado
+    
+    ImageIcon icon = new ImageIcon(caminhoIcone);
+    Image img = icon.getImage();
+    Image novaImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH); 
+    ImageIcon iconeRedimensionado = new ImageIcon(novaImg);
 
-        return botao;
-    }
+    JButton botao = new JButton("<html><center>" + texto + "</center></html>", iconeRedimensionado);
+    botao.setBackground(new Color(255, 165, 0));
+    botao.setForeground(Color.WHITE);
+    botao.setPreferredSize(tamanho); // Tamanho do botão
+    botao.setFont(new Font("Arial", Font.PLAIN, 20));
+    botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
+    botao.setVerticalTextPosition(SwingConstants.BOTTOM); // Coloca o texto abaixo da imagem
+    botao.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o botão
+    botao.setMargin(new Insets(10, 10, 10, 10)); // Define margens para evitar que o texto seja cortado
+
+    return botao;
+}
+
 
     private void verificarPedidos() {
         JOptionPane.showMessageDialog(null, "Função de verificar pedidos ainda não implementada.");

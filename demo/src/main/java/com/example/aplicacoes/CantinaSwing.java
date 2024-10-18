@@ -190,7 +190,7 @@ public class CantinaSwing {
                 JOptionPane.showMessageDialog(null, "Login ou senha de administrador inválidos!");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao validar login: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao validar login: " );
         }
     }
 
@@ -205,7 +205,7 @@ public class CantinaSwing {
                 JOptionPane.showMessageDialog(null, "Login ou senha de cliente inválidos!");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao validar login: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao validar login: " );
         }
     }
 
@@ -222,7 +222,7 @@ public class CantinaSwing {
                 JOptionPane.showMessageDialog(null, "Já existe um administrador com esse login.");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar administrador: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar administrador: " );
         }
     }
 

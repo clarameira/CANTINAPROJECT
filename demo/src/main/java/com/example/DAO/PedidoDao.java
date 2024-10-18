@@ -2,32 +2,73 @@ package com.example.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.example.aplicacoes.ItemCard;
 import com.example.aplicacoes.Pedido;
 
 public class PedidoDao {
 
-    // Método para inserir o pedido no banco de dados
+    // Método para inserir um pedido no banco de dados
     public static void inserirPedido(Pedido pedido) throws SQLException {
-        String sql = "INSERT INTO pedidos (cliente_id, nome_cliente, total_preco) VALUES (?, ?, ?)";
+        Connection conn = Conexao.conectar();
+        String sql = "INSERT INTO pedido (cliente, clienteid, item, preco) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = Conexao.conectar();  // Utiliza a classe Conexao para obter a conexão
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            // Definir os parâmetros da consulta
-            stmt.setInt(1, pedido.getid());  // ID do cliente que fez o pedido
-            stmt.setString(2, pedido.getnomeCliente());  // Nome do cliente
-           
-
-            // Executar a consulta
-            stmt.executeUpdate();
-            System.out.println("Pedido inserido com sucesso!");
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            for (ItemCard item : pedido.getItens()) {
+                pstmt.setString(1, pedido.getNomeCliente()); 
+                pstmt.setInt(2, pedido.getClienteId());   
+                pstmt.setString(3, item.getItem());       
+                pstmt.setDouble(4, item.getPreco());      
+                pstmt.addBatch();
+            }
+            pstmt.executeBatch(); 
         } catch (SQLException e) {
-            System.err.println("Erro ao inserir o pedido: " + e.getMessage());
-            throw e;  // Relançar a exceção para que seja tratada em níveis superiores
+            e.printStackTrace();
+            throw new SQLException("Erro ao inserir pedido: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
         }
     }
     
-    // Outros métodos como buscar, atualizar ou deletar pedidos podem ser adicionados conforme necessário
+    public static List<Pedido> buscarPedidosPorCliente(String cliente) throws SQLException {
+        List<Pedido> pedidos = new ArrayList<>();
+        String sql = "SELECT item, cliente, clienteid, preco FROM pedido WHERE cliente = ?";
+
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
+            pstmt.setString(1, cliente);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String item = rs.getString("item");
+                String client = rs.getString("cliente");
+                int id = rs.getInt("clienteid");
+                double preco = rs.getDouble("preco");
+               
+                ItemCard itemCard = new ItemCard(item, preco);
+                Pedido pedido = new Pedido(id, client, Collections.singletonList(itemCard)); 
+                pedidos.add(pedido);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Erro ao buscar pedidos: " + e.getMessage());
+        }
+
+        return pedidos;
+    }
 }
+
+
+
+    
+
 

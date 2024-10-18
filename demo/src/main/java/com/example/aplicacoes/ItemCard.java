@@ -12,6 +12,11 @@ public class ItemCard {
         this.preco = preco;
     }
 
+    public ItemCard(String item2, double preco2) {
+        this.item =item2;
+        this.preco = preco2;
+    }
+
     public String getItem() {
         return item;
     }
