@@ -1,8 +1,6 @@
 package com.example.usuarios;
 
-import java.awt.Image; 
-import javax.swing.ImageIcon;
-
+import java.awt.Image;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -195,29 +193,93 @@ public class Cliente {
             return;
         }
     
-        // Constrói a string para exibir os pedidos
-        StringBuilder sb = new StringBuilder("Pedidos realizados:\n\n");
+        // Definindo um laranja mais escuro
+        Color darkOrange = new Color(255, 140, 0);
+    
+        // Criar uma janela principal em tela cheia
+        JFrame frame = new JFrame("Histórico de Pedidos");
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre em tela cheia
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        // Painel principal usando BorderLayout
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE); // Fundo branco
+    
+        // Título no topo
+        JLabel titleLabel = new JLabel("Pedidos Realizados");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o título
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+    
         double totalGeral = 0.0; // Variável para armazenar o total de todos os pedidos
+        
+        // Painel para exibir os pedidos
+        JPanel pedidosPanel = new JPanel();
+        pedidosPanel.setLayout(new BoxLayout(pedidosPanel, BoxLayout.Y_AXIS));
+        pedidosPanel.setBackground(Color.WHITE); // Fundo branco
     
         for (Pedido pedido : pedidos) {
-            sb.append("Cliente: ").append(pedido.getNomeCliente()).append("\n");
-            sb.append("ID do Cliente: ").append(pedido.getClienteId()).append("\n");
-            sb.append("Itens:\n");
-            
+            // Painel para cada pedido
+            JPanel pedidoPanel = new JPanel();
+            pedidoPanel.setLayout(new BoxLayout(pedidoPanel, BoxLayout.Y_AXIS));
+            pedidoPanel.setBorder(BorderFactory.createLineBorder(darkOrange, 2)); // Borda com laranja mais escuro
+            pedidoPanel.setBackground(Color.WHITE); // Fundo branco
+    
+            // Informações do cliente
+            JLabel clienteLabel = new JLabel("Cliente: " + pedido.getNomeCliente());
+            clienteLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            clienteLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            pedidoPanel.add(clienteLabel);
+    
+            JLabel clienteIdLabel = new JLabel("ID do Cliente: " + pedido.getClienteId());
+            clienteIdLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            clienteIdLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            pedidoPanel.add(clienteIdLabel);
+    
+            // Itens do pedido
+            JLabel itensLabel = new JLabel("Itens:");
+            itensLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            itensLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            pedidoPanel.add(itensLabel);
+    
             for (ItemCard item : pedido.getItens()) {
-                sb.append("- ").append(item.getItem()).append(": R$ ").append(item.getPreco()).append("\n");
+                JLabel itemLabel = new JLabel("- " + item.getItem() + ": R$ " + item.getPreco());
+                itemLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+                itemLabel.setForeground(Color.BLACK); // Texto preto
+                pedidoPanel.add(itemLabel);
             }
     
             double totalPedido = pedido.calcularTotal(); // Calcular total para o pedido atual
             totalGeral += totalPedido; // Acumula o total de todos os pedidos
+    
+            JLabel totalPedidoLabel = new JLabel("Total do Pedido: R$ " + totalPedido);
+            totalPedidoLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            totalPedidoLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            pedidoPanel.add(totalPedidoLabel);
+    
+            pedidosPanel.add(pedidoPanel);
+            pedidosPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaço entre os pedidos
         }
     
-        // Exibe o total geral de todos os pedidos
-        sb.append("Total Geral de Todos os Pedidos: R$ ").append(totalGeral).append("\n");
+        // Adiciona o painel de pedidos dentro de um JScrollPane (barra de rolagem)
+        JScrollPane scrollPane = new JScrollPane(pedidosPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        mainPanel.add(scrollPane, BorderLayout.CENTER); // Centraliza o painel de pedidos
     
-        JOptionPane.showMessageDialog(null, sb.toString(), "Histórico de Pedidos", JOptionPane.INFORMATION_MESSAGE);
+        // Exibe o total geral de todos os pedidos na parte inferior da tela
+        JLabel totalGeralLabel = new JLabel("Total Geral de Todos os Pedidos: R$ " + totalGeral);
+        totalGeralLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        totalGeralLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+        totalGeralLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o texto
+        totalGeralLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Espaçamento
+        mainPanel.add(totalGeralLabel, BorderLayout.SOUTH); // Coloca o total no rodapé
+    
+        // Adiciona o painel principal ao frame
+        frame.getContentPane().add(mainPanel);
+        frame.setVisible(true); // Exibe a janela
     }
-
+    
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
         ImageIcon icon = new ImageIcon(caminhoIcone);
         Image img = icon.getImage();

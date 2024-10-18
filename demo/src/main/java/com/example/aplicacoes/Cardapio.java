@@ -36,7 +36,7 @@ public class Cardapio {
             return;
         }
 
-        JFrame cardapioFrame = new JFrame("CARDÁPIO");
+        JFrame cardapioFrame = new JFrame("Cardápio");
         cardapioFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         cardapioFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Tela cheia
         cardapioFrame.setLayout(new BorderLayout());
