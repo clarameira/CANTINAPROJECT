@@ -48,11 +48,11 @@ public class CantinaSwing {
         JFrame frame = new JFrame("Sistema Cantina");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.WHITE);  
-
+    
         // Painel do cabeçalho
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(255, 165, 0)); 
@@ -62,6 +62,8 @@ public class CantinaSwing {
         headerPanel.add(headerLabel);
         panel.add(headerPanel, BorderLayout.NORTH);
 
+        
+    
         // Painel central do formulário de login/cadastro
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridBagLayout());
@@ -70,38 +72,63 @@ public class CantinaSwing {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
+        // Inicializa o painel formPanel
+        formPanel.setLayout(new GridBagLayout());  
+
+        GridBagConstraints gbcc = new GridBagConstraints();
+
+// Adiciona a imagem
+        JLabel imagemLabel = new JLabel();
+        ImageIcon imageIcon = new ImageIcon("C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\logoPedeAqui.png"); 
+        Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); 
+        imagemLabel.setIcon(new ImageIcon(image));
+
+// Configurações do layout para a imagem
+        gbcc.gridx = 0; 
+        gbcc.gridy = 0; 
+        gbcc.gridwidth = 2;  
+        gbcc.anchor = GridBagConstraints.CENTER;  
+        
+        gbcc.insets = new Insets(0, 50, 50, 0);  
+
+        formPanel.add(imagemLabel, gbcc);
+
+        panel.add(formPanel, BorderLayout.CENTER); 
+
+    
         // Campo de seleção de tipo de usuário 
         JLabel userTypeLabel = new JLabel("Selecione o tipo de usuário:");
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;  // Retorna a uma coluna
         formPanel.add(userTypeLabel, gbc);
-
+    
         String[] userTypes = {"Cliente", "Administrador"};
         userTypeComboBox = new JComboBox<>(userTypes);
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         formPanel.add(userTypeComboBox, gbc);
-
+    
         JLabel loginLabel = new JLabel("Login:");
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         formPanel.add(loginLabel, gbc);
-
+    
         loginField = new JTextField(20);  
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         formPanel.add(loginField, gbc);
-
+    
         JLabel senhaLabel = new JLabel("Senha:");
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         formPanel.add(senhaLabel, gbc);
-
+    
         senhaField = new JPasswordField(20);  
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         formPanel.add(senhaField, gbc);
-
+    
         // Botão de Login
         loginButton = new JButton("Login");
         loginButton.setBackground(Color.ORANGE);
@@ -110,9 +137,9 @@ public class CantinaSwing {
         loginButton.setPreferredSize(new Dimension(100, 25));
         loginButton.addActionListener(this::loginAction);
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         formPanel.add(loginButton, gbc);
-
+    
         // Botão de Cadastro
         cadastroButton = new JButton("Cadastro");
         cadastroButton.setBackground(Color.ORANGE);
@@ -121,11 +148,11 @@ public class CantinaSwing {
         cadastroButton.setPreferredSize(new Dimension(100, 25));
         cadastroButton.addActionListener(this::cadastroAction);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         formPanel.add(cadastroButton, gbc);
-
+    
         panel.add(formPanel, BorderLayout.CENTER);
-
+    
         // Painel para exibir o cardápio
         JPanel cardapioPanel = new JPanel();
         cardapioPanel.setLayout(new BorderLayout());
@@ -142,7 +169,7 @@ public class CantinaSwing {
         cardapioPanel.add(scrollPane, BorderLayout.CENTER);
         
         panel.add(cardapioPanel, BorderLayout.SOUTH);
-
+    
         // Painel de rodapé
         JPanel footerPanel = new JPanel();
         footerPanel.setBackground(new Color(255, 165, 0));  
@@ -150,11 +177,11 @@ public class CantinaSwing {
         footerLabel.setForeground(Color.WHITE);
         footerPanel.add(footerLabel);
         panel.add(footerPanel, BorderLayout.SOUTH);
-
+    
         frame.add(panel);
         frame.setVisible(true);
     }
-
+    
     private void loginAction(ActionEvent e) {
         String userType = (String) userTypeComboBox.getSelectedItem();  
         String login = loginField.getText();  

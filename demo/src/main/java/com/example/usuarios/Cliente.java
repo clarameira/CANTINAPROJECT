@@ -72,16 +72,13 @@ public class Cliente {
         exibirCardapioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                
                     if (cardapio != null) {
-                        ItemDao.pegarTodos(cardapio);
+                        
                         cardapio.exibirCardapio(); // Chama o método para exibir cardápio
                     } else {
                         JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
                     }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(menuFrame, "Erro ao carregar cardápio: " + ex.getMessage());
-                }
             }
         });
         buttonPanel.add(exibirCardapioButton);
