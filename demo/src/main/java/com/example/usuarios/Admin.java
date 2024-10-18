@@ -226,12 +226,53 @@ public class Admin {
     }
 
     private void editarItemCardapio() {
-
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja editar:");
-        if (nome == null || nome.trim().isEmpty())
+        if (nome == null || nome.trim().isEmpty()) {
+            return; 
+        }
+    
+        ItemCard itemParaEditar = null;
+        for (ItemCard item : cardapio.getItens()) {
+            if (item.getItem().equalsIgnoreCase(nome)) {
+                itemParaEditar = item;
+                break; // Item encontrado
+            }
+        }
+    
+        if (itemParaEditar == null) {
+            JOptionPane.showMessageDialog(null, "Item não encontrado no cardápio.");
             return;
-
-    }
+        }
+    
+        String novoNome = JOptionPane.showInputDialog("Digite o novo nome do item:", itemParaEditar.getItem());
+        if (novoNome == null || novoNome.trim().isEmpty()) return; 
+    
+        String novaDescricao = JOptionPane.showInputDialog("Digite a nova descrição do item:", itemParaEditar.getDescricao());
+        if (novaDescricao == null) return; 
+    
+        String precoInput = JOptionPane.showInputDialog("Digite o novo preço do item:", itemParaEditar.getPreco());
+        if (precoInput == null) return; 
+    
+        double novoPreco;
+        try {
+            novoPreco = Double.parseDouble(precoInput);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Preço inválido. Tente novamente.");
+            return; // Sai do método se o preço for inválido
+        }
+    
+        itemParaEditar.setItem(novoNome); // Atualiza o nome do item
+        itemParaEditar.setDescricao(novaDescricao);
+        itemParaEditar.setPreco(novoPreco);
+    
+        try {
+            ItemDao.atualizarItem(itemParaEditar, nome); // Passa o nome original
+            JOptionPane.showMessageDialog(null, "Item atualizado com sucesso!");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar item no banco de dados: " + e.getMessage());
+        }
+    }    
+    
 
     private void removerItemCardapio() {
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja remover:");

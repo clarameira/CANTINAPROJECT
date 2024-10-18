@@ -48,21 +48,27 @@ public class ItemDao {
         }
     }
 
-    public static void atualizar(Cardapio cardapio) throws SQLException {
-        String sql = "UPDATE cardapio set item, descricao, preco WHERE nome = ?";
-        ItemCard item = new ItemCard("", "", 0);
+    public static void atualizarItem(ItemCard item, String nomeOriginal) throws SQLException {
+        String sql = "UPDATE cardapio SET item = ?, descricao = ?, preco = ? WHERE item = ?"; 
+        
         try (Connection conexao = Conexao.conectar();
-             PreparedStatement pstmt = conexao.prepareStatement(sql))  {
-
-        pstmt.setString(1, item.getItem());
-        pstmt.setString(2, item.getDescricao());
-        pstmt.setDouble(3, item.getPreco());
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
         
-        pstmt.executeUpdate(sql);
-        } catch (Exception e) {
-           
+            pstmt.setString(1, item.getItem()); // Novo nome do item
+            pstmt.setString(2, item.getDescricao());
+            pstmt.setDouble(3, item.getPreco());
+            pstmt.setString(4, nomeOriginal); // Nome original para a condição WHERE
+    
+            int linhasAfetadas = pstmt.executeUpdate();
+            if (linhasAfetadas == 0) {
+                System.out.println("Nenhum item encontrado com o nome: " + nomeOriginal);
+            } else {
+                System.out.println(linhasAfetadas + " linha(s) atualizada(s) com sucesso!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar dados: " + e.getMessage());
+            throw e; // Re-lança a exceção
         }
-        
     }
 
     public static void removerItem(String nome) throws SQLException {
