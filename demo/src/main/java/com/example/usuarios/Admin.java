@@ -13,6 +13,7 @@ import java.util.List;
 import java.awt.BorderLayout;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import com.example.DAO.ItemDao;
 import com.example.DAO.PedidoDao;
@@ -71,7 +72,8 @@ public class Admin {
         buttonPanel.add(Box.createVerticalStrut(10));
 
         Dimension buttonSize = new Dimension(600, 200);
-        JButton marcarPedidoProntoButton = criarBotao("Marcar Pedido como Pronto", "caminho/para/imagem_pedido_pronto.png", buttonSize);
+        JButton marcarPedidoProntoButton = criarBotao("Marcar Pedido como Pronto",
+                "caminho/para/imagem_pedido_pronto.png", buttonSize);
         marcarPedidoProntoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,9 +82,9 @@ public class Admin {
         });
         buttonPanel.add(marcarPedidoProntoButton);
         buttonPanel.add(Box.createVerticalStrut(20));
-        
 
-        JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\cardapio.png", buttonSize);
+        JButton exibirCardapioButton = criarBotao("Exibir Cardápio",
+                "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\cardapio.png", buttonSize);
         exibirCardapioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,7 +140,8 @@ public class Admin {
         buttonPanel.add(removerItemButton);
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        JButton sairButton = criarBotao("Sair", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\sair.png", buttonSize);
+        JButton sairButton = criarBotao("Sair",
+                "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\sair.png", buttonSize);
         sairButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -178,72 +181,128 @@ public class Admin {
     }
 
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
-    
-    ImageIcon icon = new ImageIcon(caminhoIcone);
-    Image img = icon.getImage();
-    Image novaImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH); 
-    ImageIcon iconeRedimensionado = new ImageIcon(novaImg);
 
-    JButton botao = new JButton("<html><center>" + texto + "</center></html>", iconeRedimensionado);
-    botao.setBackground(new Color(255, 165, 0));
-    botao.setForeground(Color.WHITE);
-    botao.setPreferredSize(tamanho); // Tamanho do botão
-    botao.setFont(new Font("Arial", Font.PLAIN, 20));
-    botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
-    botao.setVerticalTextPosition(SwingConstants.BOTTOM); // Coloca o texto abaixo da imagem
-    botao.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o botão
-    botao.setMargin(new Insets(10, 10, 10, 10)); // Define margens para evitar que o texto seja cortado
+        ImageIcon icon = new ImageIcon(caminhoIcone);
+        Image img = icon.getImage();
+        Image novaImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon iconeRedimensionado = new ImageIcon(novaImg);
 
-    return botao;
-}
+        JButton botao = new JButton("<html><center>" + texto + "</center></html>", iconeRedimensionado);
+        botao.setBackground(new Color(255, 165, 0));
+        botao.setForeground(Color.WHITE);
+        botao.setPreferredSize(tamanho); // Tamanho do botão
+        botao.setFont(new Font("Arial", Font.PLAIN, 20));
+        botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
+        botao.setVerticalTextPosition(SwingConstants.BOTTOM); // Coloca o texto abaixo da imagem
+        botao.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o botão
+        botao.setMargin(new Insets(10, 10, 10, 10)); // Define margens para evitar que o texto seja cortado
 
-private void marcarPedidoComoPronto() {
+        return botao;
+    }
+
+    private void marcarPedidoComoPronto() {
+        try {
+            List<Pedido> pedidosNaoProntos = PedidoDao.buscarPedidosNaoProntos();
+            if (pedidosNaoProntos.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nenhum pedido pendente.");
+                return;
+            }
+
+            // Listando os pedidos pendentes
+            StringBuilder sb = new StringBuilder();
+            sb.append("Pedidos pendentes:\n");
+            for (int i = 0; i < pedidosNaoProntos.size(); i++) {
+                sb.append(i + 1).append(". Cliente: ").append(pedidosNaoProntos.get(i).getNomeCliente())
+                        .append(", Item: ").append(pedidosNaoProntos.get(i).getItens().get(0).getItem()).append("\n");
+            }
+
+            // Permitindo a seleção do pedido
+            String opcao = JOptionPane
+                    .showInputDialog(sb.toString() + "\nDigite o número do pedido para marcar como pronto:");
+            if (opcao == null || opcao.trim().isEmpty()) {
+                return;
+            }
+
+            int numeroPedido;
+            try {
+                numeroPedido = Integer.parseInt(opcao) - 1; // Corrige a entrada do usuário para índice de array
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Opção inválida.");
+                return;
+            }
+
+            if (numeroPedido >= 0 && numeroPedido < pedidosNaoProntos.size()) {
+                Pedido pedidoSelecionado = pedidosNaoProntos.get(numeroPedido);
+                PedidoDao.atualizarStatusPedido(pedidoSelecionado.getClienteId(), true);
+                JOptionPane.showMessageDialog(null, "Pedido marcado como pronto!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Número de pedido inválido.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar o pedido: " + ex.getMessage());
+        }
+    }
+
+    private void verificarPedidos() {
     try {
         List<Pedido> pedidosNaoProntos = PedidoDao.buscarPedidosNaoProntos();
+        
         if (pedidosNaoProntos.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhum pedido pendente.");
             return;
         }
+        
+        String[] colunas = {"Número do Pedido", "Cliente", "Item", "Preço"};
+        Object[][] dados = new Object[pedidosNaoProntos.size()][4];
+        
 
-        // Listando os pedidos pendentes
-        StringBuilder sb = new StringBuilder();
-        sb.append("Pedidos pendentes:\n");
         for (int i = 0; i < pedidosNaoProntos.size(); i++) {
-            sb.append(i + 1).append(". Cliente: ").append(pedidosNaoProntos.get(i).getNomeCliente())
-              .append(", Item: ").append(pedidosNaoProntos.get(i).getItens().get(0).getItem()).append("\n");
+            Pedido pedido = pedidosNaoProntos.get(i);
+            ItemCard itemCard = pedido.getItens().get(0);  // Supondo que haja um único item por pedido
+            
+            dados[i][0] = pedido.getClienteId();  
+            dados[i][1] = pedido.getNomeCliente();
+            dados[i][2] = itemCard.getItem();
+            dados[i][3] = String.format("R$ %.2f", itemCard.getPreco());
         }
-
-        // Permitindo a seleção do pedido
-        String opcao = JOptionPane.showInputDialog(sb.toString() + "\nDigite o número do pedido para marcar como pronto:");
-        if (opcao == null || opcao.trim().isEmpty()) {
-            return;
-        }
-
-        int numeroPedido;
-        try {
-            numeroPedido = Integer.parseInt(opcao) - 1; // Corrige a entrada do usuário para índice de array
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Opção inválida.");
-            return;
-        }
-
-        if (numeroPedido >= 0 && numeroPedido < pedidosNaoProntos.size()) {
-            Pedido pedidoSelecionado = pedidosNaoProntos.get(numeroPedido);
-            PedidoDao.atualizarStatusPedido(pedidoSelecionado.getClienteId(), true);
-            JOptionPane.showMessageDialog(null, "Pedido marcado como pronto!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Número de pedido inválido.");
-        }
+        
+        JTable tabelaPedidos = new JTable(dados, colunas);
+        
+        tabelaPedidos.setFont(new Font("Arial", Font.PLAIN, 18));  
+        tabelaPedidos.setRowHeight(40);  
+        tabelaPedidos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 20));  
+        tabelaPedidos.getTableHeader().setBackground(new Color(255, 165, 0));  
+        tabelaPedidos.getTableHeader().setForeground(Color.WHITE);  
+        tabelaPedidos.setBackground(Color.WHITE);  
+        tabelaPedidos.setGridColor(new Color(255, 165, 0));  
+        
+        tabelaPedidos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (row % 2 == 0) {
+                    cell.setBackground(new Color(255, 240, 200));  
+                } else {
+                    cell.setBackground(Color.WHITE);  
+                }
+                return cell;
+            }
+        });
+        
+        JScrollPane scrollPane = new JScrollPane(tabelaPedidos);
+        
+        JFrame pedidosFrame = new JFrame("Pedidos Em Andamento");
+        pedidosFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        pedidosFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+        
+        pedidosFrame.add(scrollPane, BorderLayout.CENTER);
+        pedidosFrame.setVisible(true);
+        
     } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Erro ao atualizar o pedido: " + ex.getMessage());
+        JOptionPane.showMessageDialog(null, "Erro ao buscar pedidos: " + ex.getMessage());
     }
 }
-
-
-
-    private void verificarPedidos() {
-        JOptionPane.showMessageDialog(null, "Função de verificar pedidos ainda não implementada.");
-    }
 
     private void adicionarItemCardapio() throws SQLException {
         String nome = JOptionPane.showInputDialog("Digite o nome do item:");
@@ -283,9 +342,9 @@ private void marcarPedidoComoPronto() {
     private void editarItemCardapio() {
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja editar:");
         if (nome == null || nome.trim().isEmpty()) {
-            return; 
+            return;
         }
-    
+
         ItemCard itemParaEditar = null;
         for (ItemCard item : cardapio.getItens()) {
             if (item.getItem().equalsIgnoreCase(nome)) {
@@ -293,21 +352,25 @@ private void marcarPedidoComoPronto() {
                 break; // Item encontrado
             }
         }
-    
+
         if (itemParaEditar == null) {
             JOptionPane.showMessageDialog(null, "Item não encontrado no cardápio.");
             return;
         }
-    
+
         String novoNome = JOptionPane.showInputDialog("Digite o novo nome do item:", itemParaEditar.getItem());
-        if (novoNome == null || novoNome.trim().isEmpty()) return; 
-    
-        String novaDescricao = JOptionPane.showInputDialog("Digite a nova descrição do item:", itemParaEditar.getDescricao());
-        if (novaDescricao == null) return; 
-    
+        if (novoNome == null || novoNome.trim().isEmpty())
+            return;
+
+        String novaDescricao = JOptionPane.showInputDialog("Digite a nova descrição do item:",
+                itemParaEditar.getDescricao());
+        if (novaDescricao == null)
+            return;
+
         String precoInput = JOptionPane.showInputDialog("Digite o novo preço do item:", itemParaEditar.getPreco());
-        if (precoInput == null) return; 
-    
+        if (precoInput == null)
+            return;
+
         double novoPreco;
         try {
             novoPreco = Double.parseDouble(precoInput);
@@ -315,19 +378,18 @@ private void marcarPedidoComoPronto() {
             JOptionPane.showMessageDialog(null, "Preço inválido. Tente novamente.");
             return; // Sai do método se o preço for inválido
         }
-    
+
         itemParaEditar.setItem(novoNome); // Atualiza o nome do item
         itemParaEditar.setDescricao(novaDescricao);
         itemParaEditar.setPreco(novoPreco);
-    
+
         try {
             ItemDao.atualizarItem(itemParaEditar, nome); // Passa o nome original
             JOptionPane.showMessageDialog(null, "Item atualizado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar item no banco de dados: " + e.getMessage());
         }
-    }    
-    
+    }
 
     private void removerItemCardapio() {
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja remover:");

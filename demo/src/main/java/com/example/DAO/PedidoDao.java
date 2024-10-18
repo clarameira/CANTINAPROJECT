@@ -84,6 +84,7 @@ public class PedidoDao {
             }
         }
     }
+    
     public static List<Pedido> buscarPedidosNaoProntos() throws SQLException {
         List<Pedido> pedidos = new ArrayList<>();
         String sql = "SELECT item, cliente, clienteid, preco FROM pedido WHERE pedidoPronto = false";
