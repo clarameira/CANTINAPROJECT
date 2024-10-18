@@ -50,6 +50,9 @@ public class Cliente {
     }
 
     public void exibirMenuCliente() throws SQLException {
+        verificarPedidosProntos();
+        ItemDao.pegarTodos(cardapio);
+
         // Criar a janela do menu do cliente
         JFrame menuFrame = new JFrame("Menu Cliente");
         menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,6 +186,23 @@ public class Cliente {
         PedidoDao.inserirPedido(pedido);  
         JOptionPane.showMessageDialog(null, "Pedido realizado com sucesso!");
     }
+    public void verificarPedidosProntos() {
+        try {
+            List<Pedido> pedidos = PedidoDao.buscarPedidosPorCliente(login);
+
+            for (Pedido pedido : pedidos) {
+                if (pedido.isPedidoPronto()) {  // Verifica se o pedido está pronto
+                    JOptionPane.showMessageDialog(null, 
+                        "Seu pedido #" + pedido.getClienteId() + " está pronto e já pode ser retirado.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao verificar pedidos: " + e.getMessage());
+        }
+    }
+    
+
 
     public void exibirPedidos() throws SQLException {
         // Obtém os pedidos do cliente a partir do banco de dados
@@ -257,6 +277,34 @@ public class Cliente {
             totalPedidoLabel.setFont(new Font("Arial", Font.BOLD, 16));
             totalPedidoLabel.setForeground(darkOrange); // Texto com laranja mais escuro
             pedidoPanel.add(totalPedidoLabel);
+            
+            // Se o pedido estiver pronto, exibe um botão para confirmar recebimento
+            if (pedido.isPedidoPronto()) {
+                JButton confirmarRecebimentoButton = new JButton("Confirmar Recebimento");
+                confirmarRecebimentoButton.setFont(new Font("Arial", Font.BOLD, 16));
+                confirmarRecebimentoButton.setBackground(new Color(0, 204, 102)); // Verde
+                confirmarRecebimentoButton.setForeground(Color.WHITE);
+                
+                confirmarRecebimentoButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            // Atualiza o status do pedido para recebido
+                            PedidoDao.deletarPedidoPorLogin(login);
+                            JOptionPane.showMessageDialog(frame, "Pedido #" + pedido.getClienteId() + " confirmado como recebido.");
+                            
+                            // Remove o painel do pedido
+                            pedidosPanel.remove(pedidoPanel);
+                            pedidosPanel.revalidate();
+                            pedidosPanel.repaint();
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(frame, "Erro ao confirmar o recebimento: " + ex.getMessage());
+                        }
+                    }
+                });
+    
+                pedidoPanel.add(confirmarRecebimentoButton);
+            }
     
             pedidosPanel.add(pedidoPanel);
             pedidosPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaço entre os pedidos

@@ -1,7 +1,6 @@
 package com.example.usuarios;
 
-import java.awt.Image; 
-import javax.swing.ImageIcon;
+import java.awt.Image;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -10,13 +9,16 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
 import java.awt.BorderLayout;
 
 import javax.swing.*;
 
 import com.example.DAO.ItemDao;
+import com.example.DAO.PedidoDao;
 import com.example.aplicacoes.Cardapio;
 import com.example.aplicacoes.ItemCard;
+import com.example.aplicacoes.Pedido;
 
 public class Admin {
     private String login;
@@ -69,6 +71,16 @@ public class Admin {
         buttonPanel.add(Box.createVerticalStrut(10));
 
         Dimension buttonSize = new Dimension(600, 200);
+        JButton marcarPedidoProntoButton = criarBotao("Marcar Pedido como Pronto", "caminho/para/imagem_pedido_pronto.png", buttonSize);
+        marcarPedidoProntoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                marcarPedidoComoPronto();
+            }
+        });
+        buttonPanel.add(marcarPedidoProntoButton);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        
 
         JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\cardapio.png", buttonSize);
         exibirCardapioButton.addActionListener(new ActionListener() {
@@ -184,6 +196,49 @@ public class Admin {
 
     return botao;
 }
+
+private void marcarPedidoComoPronto() {
+    try {
+        List<Pedido> pedidosNaoProntos = PedidoDao.buscarPedidosNaoProntos();
+        if (pedidosNaoProntos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhum pedido pendente.");
+            return;
+        }
+
+        // Listando os pedidos pendentes
+        StringBuilder sb = new StringBuilder();
+        sb.append("Pedidos pendentes:\n");
+        for (int i = 0; i < pedidosNaoProntos.size(); i++) {
+            sb.append(i + 1).append(". Cliente: ").append(pedidosNaoProntos.get(i).getNomeCliente())
+              .append(", Item: ").append(pedidosNaoProntos.get(i).getItens().get(0).getItem()).append("\n");
+        }
+
+        // Permitindo a seleção do pedido
+        String opcao = JOptionPane.showInputDialog(sb.toString() + "\nDigite o número do pedido para marcar como pronto:");
+        if (opcao == null || opcao.trim().isEmpty()) {
+            return;
+        }
+
+        int numeroPedido;
+        try {
+            numeroPedido = Integer.parseInt(opcao) - 1; // Corrige a entrada do usuário para índice de array
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.");
+            return;
+        }
+
+        if (numeroPedido >= 0 && numeroPedido < pedidosNaoProntos.size()) {
+            Pedido pedidoSelecionado = pedidosNaoProntos.get(numeroPedido);
+            PedidoDao.atualizarStatusPedido(pedidoSelecionado.getClienteId(), true);
+            JOptionPane.showMessageDialog(null, "Pedido marcado como pronto!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Número de pedido inválido.");
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Erro ao atualizar o pedido: " + ex.getMessage());
+    }
+}
+
 
 
     private void verificarPedidos() {

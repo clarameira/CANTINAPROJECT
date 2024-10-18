@@ -7,12 +7,14 @@ public class Pedido {
     private String nomeCliente;
     private double totalPreco;
     private List<ItemCard> itens; // Lista de itens do pedido
+    private boolean pedidoPronto; // Variável para indicar se o pedido está pronto
 
     // Construtor que aceita o ID do cliente, nome do cliente e lista de itens do cardápio
     public Pedido(int clienteId, String nomeCliente, List<ItemCard> itens) {
         this.clienteId = clienteId;
         this.nomeCliente = nomeCliente;
         this.itens = itens;
+        this.pedidoPronto = false; // Inicialmente, o pedido não está pronto
     }
 
     public int getClienteId() {
@@ -27,6 +29,16 @@ public class Pedido {
         return itens;
     }
 
+    // Método para verificar se o pedido está pronto
+    public boolean isPedidoPronto() {
+        return pedidoPronto;
+    }
+
+    // Método para definir o estado do pedido como pronto
+    public void setPedidoPronto(boolean pedidoPronto) {
+        this.pedidoPronto = pedidoPronto;
+    }
+
     // Método para obter o nome do item selecionado
     public String getItemNome() {
         if (!itens.isEmpty()) {
@@ -38,6 +50,7 @@ public class Pedido {
     public double getTotalPreco() {
         return totalPreco;
     }
+    
     public double calcularTotal() {
         return itens.stream().mapToDouble(ItemCard::getPreco).sum();
     }
@@ -51,7 +64,9 @@ public class Pedido {
         for (ItemCard item : itens) {
             sb.append("- ").append(item.toString()).append("\n");
         }
-        sb.append("Preço Total: R$ ").append(String.format("%.2f", totalPreco));
+        sb.append("Preço Total: R$ ").append(String.format("%.2f", totalPreco)).append("\n")
+          .append("Pedido Pronto: ").append(pedidoPronto ? "Sim" : "Não");
         return sb.toString();
     }
 }
+
