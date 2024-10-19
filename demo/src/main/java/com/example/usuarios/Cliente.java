@@ -57,7 +57,7 @@ public class Cliente {
     // Painel para a imagem
     JPanel imagePanel = new JPanel();
     imagePanel.setBackground(Color.WHITE);
-    JLabel imageLabel = new JLabel(new ImageIcon("CANTINAPROJECT\\imagens\\logoPedeAqui.png")); // Adicione o caminho da sua imagem
+    JLabel imageLabel = new JLabel(new ImageIcon("C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-8\\imagens\\logoPedeAqui.png")); // Adicione o caminho da sua imagem
     imagePanel.add(imageLabel);
 
     // Painel para os botões
