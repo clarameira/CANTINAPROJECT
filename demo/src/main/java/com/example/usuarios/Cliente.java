@@ -1,12 +1,5 @@
 package com.example.usuarios;
 
-import java.awt.Image;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -15,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import javax.swing.*;
+import java.awt.*;
 
 import com.example.DAO.ItemDao;
 import com.example.DAO.PedidoDao;
@@ -50,9 +44,10 @@ public class Cliente {
     }
 
     public void exibirMenuCliente() throws SQLException {
-        verificarPedidosProntos();
-        ItemDao.pegarTodos(cardapio);
+    verificarPedidosProntos();
+    ItemDao.pegarTodos(cardapio);
 
+<<<<<<< HEAD
         // Criar a janela do menu do cliente
         JFrame menuFrame = new JFrame("Menu Cliente");
         menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,6 +124,93 @@ public class Cliente {
         // Exibir a janela do menu
         menuFrame.setVisible(true);
     }
+=======
+    JFrame menuFrame = new JFrame("Menu Cliente");
+    menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+    menuFrame.setUndecorated(true); 
+    menuFrame.setLocationRelativeTo(null); 
+    menuFrame.getContentPane().setBackground(Color.WHITE);
+
+    // Painel para a imagem
+    JPanel imagePanel = new JPanel();
+    imagePanel.setBackground(Color.WHITE);
+    JLabel imageLabel = new JLabel(new ImageIcon("C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\logoPedeAqui.png")); // Adicione o caminho da sua imagem
+    imagePanel.add(imageLabel);
+
+    // Painel para os botões
+    JPanel buttonPanel = new JPanel();
+    buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); 
+    buttonPanel.setBackground(Color.WHITE);
+
+    Dimension buttonSize = new Dimension(150, 80); 
+
+    // Botão Exibir Cardápio
+    JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\exibir.png", buttonSize);
+    exibirCardapioButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (cardapio != null) {
+                cardapio.exibirCardapio(); 
+            } else {
+                JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
+            }
+        }
+    });
+    buttonPanel.add(exibirCardapioButton);
+
+    // Botão Fazer Pedido
+    JButton fazerPedidoButton = criarBotao("Fazer Pedido", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\adicionar.png", buttonSize);
+    fazerPedidoButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                fazerPedido();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(menuFrame, "Erro ao fazer pedido: " + ex.getMessage());
+            }
+        }
+    });
+    buttonPanel.add(fazerPedidoButton);
+
+    // Botão Ver Pedidos
+    JButton exibirPedidosButton = criarBotao("Ver Pedidos", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\aprovarPed.png", buttonSize);
+    exibirPedidosButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                exibirPedidos(); 
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(menuFrame, "Erro ao exibir pedidos: " + ex.getMessage());
+            }
+        }
+    });
+    buttonPanel.add(exibirPedidosButton);
+
+    // Botão Sair
+    JButton sairButton = criarBotao("Sair", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+    sairButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            menuFrame.dispose(); 
+            JOptionPane.showMessageDialog(null, "Saindo.");
+        }
+    });
+    buttonPanel.add(sairButton);
+
+    // Painel principal que contém a imagem acima e os botões abaixo
+    JPanel mainPanel = new JPanel(new BorderLayout());
+    mainPanel.setBackground(Color.WHITE);
+
+    // Adiciona os painéis no layout
+    mainPanel.add(imagePanel, BorderLayout.NORTH);  // A imagem fica no topo
+    mainPanel.add(buttonPanel, BorderLayout.CENTER); // Os botões ficam no centro
+
+    // Adiciona o painel principal no frame
+    menuFrame.add(mainPanel, BorderLayout.CENTER);
+    menuFrame.setVisible(true);
+}
+>>>>>>> 7a7fe76b7a05a7ffe127f6d3dff04487a3376177
 
     public void fazerPedido() throws SQLException {
         if (cardapio == null || cardapio.getItens().length == 0) {

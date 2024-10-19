@@ -85,7 +85,7 @@ public class Admin {
         buttonPanel.add(Box.createVerticalStrut(20));
 
         JButton exibirCardapioButton = criarBotao("Exibir Cardápio",
-                "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\cardapio.png", buttonSize);
+                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\exibir.png", buttonSize);
         exibirCardapioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,7 +107,7 @@ public class Admin {
         buttonPanel.add(exibirCardapioButton);
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        JButton adicionarItemButton = criarBotao("Adicionar Item", "caminho/para/imagem_adicionar.png", buttonSize);
+        JButton adicionarItemButton = criarBotao("Adicionar Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\adicionar.png", buttonSize);
         adicionarItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,7 +121,7 @@ public class Admin {
         buttonPanel.add(adicionarItemButton);
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        JButton editarItemButton = criarBotao("Editar Item", "caminho/para/imagem_editar.png", buttonSize);
+        JButton editarItemButton = criarBotao("Editar Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\editar.pngg", buttonSize);
         editarItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,7 +131,7 @@ public class Admin {
         buttonPanel.add(editarItemButton);
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        JButton removerItemButton = criarBotao("Remover Item", "caminho/para/imagem_remover.png", buttonSize);
+        JButton removerItemButton = criarBotao("Remover Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\remover.png", buttonSize);
         removerItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,7 +142,7 @@ public class Admin {
         buttonPanel.add(Box.createVerticalStrut(20));
 
         JButton sairButton = criarBotao("Sair",
-                "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\sair.png", buttonSize);
+                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
         sairButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -163,6 +163,7 @@ public class Admin {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.add(Box.createVerticalStrut(100));
 
+<<<<<<< HEAD
         ImageIcon imagemVerificar = new ImageIcon("CANTINAPROJECT\\imagens\\logoPedeAqui.png"); 
         Image img = imagemVerificar.getImage(); 
         Image novaImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH); 
@@ -179,6 +180,16 @@ public class Admin {
         verificarPedidos();
     }
     });
+=======
+        JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\verificarPed.png",
+                buttonSize);
+        verificarPedidosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                verificarPedidos();
+            }
+        });
+>>>>>>> 7a7fe76b7a05a7ffe127f6d3dff04487a3376177
         rightPanel.add(verificarPedidosButton);
         rightPanel.add(Box.createVerticalGlue());
 
