@@ -65,10 +65,10 @@ public class Cliente {
     buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); 
     buttonPanel.setBackground(Color.WHITE);
 
-    Dimension buttonSize = new Dimension(150, 40); 
+    Dimension buttonSize = new Dimension(150, 80); 
 
     // Botão Exibir Cardápio
-    JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "caminho/para/imagem_exibir.png", buttonSize);
+    JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\exibir.png", buttonSize);
     exibirCardapioButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -82,7 +82,7 @@ public class Cliente {
     buttonPanel.add(exibirCardapioButton);
 
     // Botão Fazer Pedido
-    JButton fazerPedidoButton = criarBotao("Fazer Pedido", "caminho/para/imagem_pedido.png", buttonSize);
+    JButton fazerPedidoButton = criarBotao("Fazer Pedido", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\adicionar.png", buttonSize);
     fazerPedidoButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -96,7 +96,7 @@ public class Cliente {
     buttonPanel.add(fazerPedidoButton);
 
     // Botão Ver Pedidos
-    JButton exibirPedidosButton = criarBotao("Ver Pedidos", "caminho/para/imagem_pedidos.png", buttonSize);
+    JButton exibirPedidosButton = criarBotao("Ver Pedidos", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\aprovarPed.png", buttonSize);
     exibirPedidosButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -110,7 +110,7 @@ public class Cliente {
     buttonPanel.add(exibirPedidosButton);
 
     // Botão Sair
-    JButton sairButton = criarBotao("Sair", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\sair.png", buttonSize);
+    JButton sairButton = criarBotao("Sair", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
     sairButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
