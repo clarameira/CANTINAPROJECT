@@ -80,7 +80,7 @@ public class CantinaSwing {
 // Adiciona a imagem
         JLabel imagemLabel = new JLabel();
         ImageIcon imageIcon = new ImageIcon("C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\logoPedeAqui.png"); 
-        Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); 
+        Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH); 
         imagemLabel.setIcon(new ImageIcon(image));
 
 // Configurações do layout para a imagem
