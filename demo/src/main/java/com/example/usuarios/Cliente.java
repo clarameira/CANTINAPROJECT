@@ -47,84 +47,6 @@ public class Cliente {
     verificarPedidosProntos();
     ItemDao.pegarTodos(cardapio);
 
-<<<<<<< HEAD
-        // Criar a janela do menu do cliente
-        JFrame menuFrame = new JFrame("Menu Cliente");
-        menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
-        menuFrame.getContentPane().setBackground(Color.WHITE); // Fundo branco
-        
-        // Painel para organizar os botões usando BoxLayout
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // Alinhamento vertical
-        buttonPanel.setBackground(Color.WHITE); // Fundo branco do painel
-        
-        // Tamanho preferido dos botões
-        Dimension buttonSize = new Dimension(300, 40);
-        
-        // Adicionar botão para exibir cardápio
-        JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "caminho/para/imagem_exibir.png", buttonSize);
-        exibirCardapioButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                    if (cardapio != null) {
-                        
-                        cardapio.exibirCardapio(); // Chama o método para exibir cardápio
-                    } else {
-                        JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
-                    }
-                
-            }
-        });
-        buttonPanel.add(exibirCardapioButton);
-
-        // Adicionar botão para fazer pedido
-        JButton fazerPedidoButton = criarBotao("Fazer Pedido", "caminho/para/imagem_pedido.png", buttonSize);
-        fazerPedidoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    fazerPedido();
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(menuFrame, "Erro ao fazer pedido: " + ex.getMessage());
-                }
-            }
-        });
-        buttonPanel.add(fazerPedidoButton);
-
-        // Adicionar botão para exibir pedidos
-        JButton exibirPedidosButton = criarBotao("Ver Pedidos", "caminho/para/imagem_pedidos.png", buttonSize);
-        exibirPedidosButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    exibirPedidos(); // Chama o método para exibir pedidos
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(menuFrame, "Erro ao exibir pedidos: " + ex.getMessage());
-                }
-            }
-        });
-        buttonPanel.add(exibirPedidosButton);
-        
-        // Adicionar botão de sair
-        JButton sairButton = criarBotao("Sair", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\sair.png", buttonSize);
-        sairButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                menuFrame.dispose(); // Fecha a janela do menu
-                JOptionPane.showMessageDialog(null, "Saindo.");
-            }
-        });
-        buttonPanel.add(sairButton);
-        
-        // Adiciona o painel de botões à janela, centralizando
-        menuFrame.add(buttonPanel, BorderLayout.CENTER);
-        
-        // Exibir a janela do menu
-        menuFrame.setVisible(true);
-    }
-=======
     JFrame menuFrame = new JFrame("Menu Cliente");
     menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -135,7 +57,7 @@ public class Cliente {
     // Painel para a imagem
     JPanel imagePanel = new JPanel();
     imagePanel.setBackground(Color.WHITE);
-    JLabel imageLabel = new JLabel(new ImageIcon("C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\logoPedeAqui.png")); // Adicione o caminho da sua imagem
+    JLabel imageLabel = new JLabel(new ImageIcon("CANTINAPROJECT\\imagens\\logoPedeAqui.png")); // Adicione o caminho da sua imagem
     imagePanel.add(imageLabel);
 
     // Painel para os botões
@@ -210,7 +132,6 @@ public class Cliente {
     menuFrame.add(mainPanel, BorderLayout.CENTER);
     menuFrame.setVisible(true);
 }
->>>>>>> 7a7fe76b7a05a7ffe127f6d3dff04487a3376177
 
     public void fazerPedido() throws SQLException {
         if (cardapio == null || cardapio.getItens().length == 0) {

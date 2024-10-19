@@ -163,7 +163,6 @@ public class Admin {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.add(Box.createVerticalStrut(100));
 
-<<<<<<< HEAD
         ImageIcon imagemVerificar = new ImageIcon("CANTINAPROJECT\\imagens\\logoPedeAqui.png"); 
         Image img = imagemVerificar.getImage(); 
         Image novaImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH); 
@@ -180,16 +179,7 @@ public class Admin {
         verificarPedidos();
     }
     });
-=======
-        JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\verificarPed.png",
-                buttonSize);
-        verificarPedidosButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                verificarPedidos();
-            }
-        });
->>>>>>> 7a7fe76b7a05a7ffe127f6d3dff04487a3376177
+
         rightPanel.add(verificarPedidosButton);
         rightPanel.add(Box.createVerticalGlue());
 
