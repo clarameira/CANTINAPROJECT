@@ -71,6 +71,7 @@ public class Admin {
 
         buttonPanel.add(Box.createVerticalStrut(10));
 
+
         Dimension buttonSize = new Dimension(600, 200);
         JButton marcarPedidoProntoButton = criarBotao("Marcar Pedido como Pronto",
                 "caminho/para/imagem_pedido_pronto.png", buttonSize);
@@ -152,22 +153,32 @@ public class Admin {
         buttonPanel.add(sairButton);
         buttonPanel.add(Box.createVerticalGlue());
 
+
+        
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(Color.WHITE);
 
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.add(Box.createVerticalStrut(250)); 
+        rightPanel.add(Box.createVerticalStrut(100));
 
-        JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "caminho/para/imagem_verificar.png",
-                buttonSize);
-        verificarPedidosButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                verificarPedidos();
-            }
-        });
+        ImageIcon imagemVerificar = new ImageIcon("CANTINAPROJECT\\imagens\\logoPedeAqui.png"); 
+        Image img = imagemVerificar.getImage(); 
+        Image novaImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH); 
+        imagemVerificar = new ImageIcon(novaImg); 
+
+        JLabel imagemLabel = new JLabel(imagemVerificar);
+        imagemLabel.setAlignmentX(Component.CENTER_ALIGNMENT); 
+        rightPanel.add(imagemLabel); 
+
+    JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "caminho/para/imagem_verificar.png", buttonSize);
+    verificarPedidosButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        verificarPedidos();
+    }
+    });
         rightPanel.add(verificarPedidosButton);
         rightPanel.add(Box.createVerticalGlue());
 
