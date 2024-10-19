@@ -158,7 +158,7 @@ public class Admin {
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.add(Box.createVerticalStrut(250)); // Espaço de 150 pixels no topo do painel de pedidos
+        rightPanel.add(Box.createVerticalStrut(250)); 
 
         JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "caminho/para/imagem_verificar.png",
                 buttonSize);
@@ -190,13 +190,12 @@ public class Admin {
         JButton botao = new JButton("<html><center>" + texto + "</center></html>", iconeRedimensionado);
         botao.setBackground(new Color(255, 165, 0));
         botao.setForeground(Color.WHITE);
-        botao.setPreferredSize(tamanho); // Tamanho do botão
+        botao.setPreferredSize(tamanho); 
         botao.setFont(new Font("Arial", Font.PLAIN, 20));
-        botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
-        botao.setVerticalTextPosition(SwingConstants.BOTTOM); // Coloca o texto abaixo da imagem
-        botao.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o botão
-        botao.setMargin(new Insets(10, 10, 10, 10)); // Define margens para evitar que o texto seja cortado
-
+        botao.setHorizontalTextPosition(SwingConstants.CENTER); 
+        botao.setVerticalTextPosition(SwingConstants.BOTTOM); 
+        botao.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botao.setMargin(new Insets(10, 10, 10, 10)); 
         return botao;
     }
 
@@ -207,41 +206,49 @@ public class Admin {
                 JOptionPane.showMessageDialog(null, "Nenhum pedido pendente.");
                 return;
             }
-
+    
             // Listando os pedidos pendentes
             StringBuilder sb = new StringBuilder();
             sb.append("Pedidos pendentes:\n");
-            for (int i = 0; i < pedidosNaoProntos.size(); i++) {
-                sb.append(i + 1).append(". Cliente: ").append(pedidosNaoProntos.get(i).getNomeCliente())
-                        .append(", Item: ").append(pedidosNaoProntos.get(i).getItens().get(0).getItem()).append("\n");
+            for (Pedido pedido : pedidosNaoProntos) {
+                sb.append("Cliente ID: ").append(pedido.getClienteId())
+                  .append(", Cliente: ").append(pedido.getNomeCliente())
+                  .append("    Item: ").append(pedido.getItens().get(0).getItem()).append("\n");
             }
-
-            // Permitindo a seleção do pedido
-            String opcao = JOptionPane
-                    .showInputDialog(sb.toString() + "\nDigite o número do pedido para marcar como pronto:");
+    
+            // Permitindo a seleção do cliente pelo ID
+            String opcao = JOptionPane.showInputDialog(sb.toString() + "\nDigite o ID do cliente para marcar todos os pedidos desse cliente como prontos:");
             if (opcao == null || opcao.trim().isEmpty()) {
                 return;
             }
-
-            int numeroPedido;
+    
+            int clienteId;
             try {
-                numeroPedido = Integer.parseInt(opcao) - 1; // Corrige a entrada do usuário para índice de array
+                clienteId = Integer.parseInt(opcao); 
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Opção inválida.");
+                JOptionPane.showMessageDialog(null, "ID inválido.");
                 return;
             }
-
-            if (numeroPedido >= 0 && numeroPedido < pedidosNaoProntos.size()) {
-                Pedido pedidoSelecionado = pedidosNaoProntos.get(numeroPedido);
-                PedidoDao.atualizarStatusPedido(pedidoSelecionado.getClienteId(), true);
-                JOptionPane.showMessageDialog(null, "Pedido marcado como pronto!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Número de pedido inválido.");
+    
+            boolean clienteEncontrado = false;
+            for (Pedido pedido : pedidosNaoProntos) {
+                if (pedido.getClienteId() == clienteId) {
+                    PedidoDao.atualizarStatusPedido(pedido.getClienteId(), true);
+                    clienteEncontrado = true;
+                }
             }
+    
+            if (clienteEncontrado) {
+                JOptionPane.showMessageDialog(null, "Os pedidos do cliente foram marcados como prontos!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Cliente com ID informado não encontrado.");
+            }
+    
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar o pedido: " + ex.getMessage());
         }
     }
+    
 
     private void verificarPedidos() {
     try {

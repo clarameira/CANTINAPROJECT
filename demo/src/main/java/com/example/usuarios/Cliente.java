@@ -53,21 +53,17 @@ public class Cliente {
         verificarPedidosProntos();
         ItemDao.pegarTodos(cardapio);
 
-        // Criar a janela do menu do cliente
         JFrame menuFrame = new JFrame("Menu Cliente");
         menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
-        menuFrame.getContentPane().setBackground(Color.WHITE); // Fundo branco
+        menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+        menuFrame.getContentPane().setBackground(Color.WHITE); 
         
-        // Painel para organizar os botões usando BoxLayout
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // Alinhamento vertical
-        buttonPanel.setBackground(Color.WHITE); // Fundo branco do painel
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); 
+        buttonPanel.setBackground(Color.WHITE); 
         
-        // Tamanho preferido dos botões
         Dimension buttonSize = new Dimension(300, 40);
-        
-        // Adicionar botão para exibir cardápio
+
         JButton exibirCardapioButton = criarBotao("Exibir Cardápio", "caminho/para/imagem_exibir.png", buttonSize);
         exibirCardapioButton.addActionListener(new ActionListener() {
             @Override
@@ -75,7 +71,7 @@ public class Cliente {
                 
                     if (cardapio != null) {
                         
-                        cardapio.exibirCardapio(); // Chama o método para exibir cardápio
+                        cardapio.exibirCardapio(); 
                     } else {
                         JOptionPane.showMessageDialog(menuFrame, "O cardápio não está disponível.");
                     }
@@ -83,7 +79,6 @@ public class Cliente {
         });
         buttonPanel.add(exibirCardapioButton);
 
-        // Adicionar botão para fazer pedido
         JButton fazerPedidoButton = criarBotao("Fazer Pedido", "caminho/para/imagem_pedido.png", buttonSize);
         fazerPedidoButton.addActionListener(new ActionListener() {
             @Override
@@ -97,13 +92,12 @@ public class Cliente {
         });
         buttonPanel.add(fazerPedidoButton);
 
-        // Adicionar botão para exibir pedidos
         JButton exibirPedidosButton = criarBotao("Ver Pedidos", "caminho/para/imagem_pedidos.png", buttonSize);
         exibirPedidosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    exibirPedidos(); // Chama o método para exibir pedidos
+                    exibirPedidos(); 
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(menuFrame, "Erro ao exibir pedidos: " + ex.getMessage());
                 }
@@ -111,21 +105,18 @@ public class Cliente {
         });
         buttonPanel.add(exibirPedidosButton);
         
-        // Adicionar botão de sair
         JButton sairButton = criarBotao("Sair", "C:\\Users\\ferna\\Desktop\\projetoCantina\\CANTINAPROJECT\\imagens\\sair.png", buttonSize);
         sairButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuFrame.dispose(); // Fecha a janela do menu
+                menuFrame.dispose(); 
                 JOptionPane.showMessageDialog(null, "Saindo.");
             }
         });
         buttonPanel.add(sairButton);
         
-        // Adiciona o painel de botões à janela, centralizando
         menuFrame.add(buttonPanel, BorderLayout.CENTER);
         
-        // Exibir a janela do menu
         menuFrame.setVisible(true);
     }
 
@@ -135,35 +126,28 @@ public class Cliente {
             return;
         }
     
-        // Exibir opções do cardápio para o cliente selecionar
         String[] opcoes = Arrays.stream(cardapio.getItens()).map(ItemCard::getItem).toArray(String[]::new);
     
-        // Criar JList para seleção múltipla
         JList<String> itemList = new JList<>(opcoes);
         itemList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        itemList.setVisibleRowCount(10); // Exibe até 10 itens
+        itemList.setVisibleRowCount(10); 
     
-        // Colocar JList em um JScrollPane para rolagem
         JScrollPane scrollPane = new JScrollPane(itemList);
         scrollPane.setPreferredSize(new Dimension(300, 200));
     
-        // Mostrar a caixa de diálogo para selecionar os itens
         int resposta = JOptionPane.showConfirmDialog(null, scrollPane, "Selecione os itens que deseja pedir:", JOptionPane.OK_CANCEL_OPTION);
         
-        // Se o cliente cancelou ou não escolheu nenhum item
         if (resposta != JOptionPane.OK_OPTION) {
             JOptionPane.showMessageDialog(null, "Nenhum item foi selecionado.");
             return;
         }
-    
-        // Obter os índices dos itens selecionados
+   
         int[] indicesSelecionados = itemList.getSelectedIndices();
         if (indicesSelecionados.length == 0) {
             JOptionPane.showMessageDialog(null, "Nenhum item foi selecionado.");
             return;
         }
-    
-        // Coletar os itens selecionados
+
         List<ItemCard> itensSelecionados = new ArrayList<>();
         for (int indice : indicesSelecionados) {
             String itemPedido = opcoes[indice];
@@ -179,10 +163,10 @@ public class Cliente {
     
         Pedido pedido = new Pedido(clienteId, login, itensSelecionados);
     
-        // Insere o pedido no banco de dados
         PedidoDao.inserirPedido(pedido);  
         JOptionPane.showMessageDialog(null, "Pedido realizado com sucesso!");
     }
+    
     public void verificarPedidosProntos() {
         try {
             List<Pedido> pedidos = PedidoDao.buscarPedidosPorCliente(login);
