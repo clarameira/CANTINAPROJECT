@@ -110,7 +110,7 @@ public class Cliente {
     });
     buttonPanel.add(exibirPedidosButton);
     
-    JButton deletarButton = criarBotao("deletar","C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+    JButton deletarButton = criarBotao("Deletar Conta","C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
         deletarButton.addActionListener(new ActionListener() {
             
 
