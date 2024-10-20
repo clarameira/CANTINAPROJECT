@@ -68,7 +68,7 @@ public class Admin {
         // Painel para organizar os botões à esquerda
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBackground(Color.WHITE); // Fundo branco do painel
+        buttonPanel.setBackground(Color.WHITE); 
 
         buttonPanel.add(Box.createVerticalStrut(10));
 
@@ -143,7 +143,7 @@ public class Admin {
         buttonPanel.add(Box.createVerticalStrut(20));
         
         //botão de deletar
-        JButton deletarButton = criarBotao("deletar",
+        JButton deletarButton = criarBotao("Deletar Conta",
                 "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
         deletarButton.addActionListener(new ActionListener() {
             
@@ -163,7 +163,7 @@ public class Admin {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                JOptionPane.showMessageDialog(null, "usuario deletado.");
+                JOptionPane.showMessageDialog(null, "Usuário deletado.");
             }else{
                 JOptionPane.showMessageDialog(null, "Ação cancelada.");
             }
@@ -173,7 +173,7 @@ public class Admin {
         buttonPanel.add(Box.createVerticalStrut(20));
         
 
-        JButton cadastrarButton = criarBotao("cadastro",
+        JButton cadastrarButton = criarBotao("Cadastrar Novo Administrador",
                 "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
@@ -190,16 +190,14 @@ public class Admin {
                     return;
                 }
         
-                // Verificar se o administrador já existe
                 try {
                     if (AdminDao.buscarPorLogin(novoLogin) != null) {
                         JOptionPane.showMessageDialog(menuFrame, "Administrador com esse login já existe.");
                         return;
                     }
-        
-                    // Cadastrar novo administrador
+
                     Admin novoAdmin = new Admin(novoLogin, novaSenha);
-                    AdminDao.inserirUsuario(novoAdmin);  // Inserir no banco de dados
+                    AdminDao.inserirUsuario(novoAdmin);  
         
                     JOptionPane.showMessageDialog(menuFrame, "Novo administrador cadastrado com sucesso!");
                 } catch (SQLException ex) {
@@ -474,7 +472,7 @@ public class Admin {
         itemParaEditar.setPreco(novoPreco);
 
         try {
-            ItemDao.atualizarItem(itemParaEditar, nome); // Passa o nome original
+            ItemDao.atualizarItem(itemParaEditar, nome); 
             JOptionPane.showMessageDialog(null, "Item atualizado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar item no banco de dados: " + e.getMessage());
