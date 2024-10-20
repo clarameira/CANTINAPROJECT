@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class Conexao {
     
-        private static final String URL = "jdbc:postgresql://localhost:5432/cantina";
+        private static final String URL = "jdbc:postgresql://localhost:5433/cantinaproject";
         private static final String USUARIO = "postgres"; 
-        private static final String SENHA = "postgres"; 
+        private static final String SENHA = "root"; 
     
         public static Connection conectar() {
             Connection conn = null;

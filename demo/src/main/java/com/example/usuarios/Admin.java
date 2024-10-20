@@ -122,7 +122,7 @@ public class Admin {
         buttonPanel.add(adicionarItemButton);
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        JButton editarItemButton = criarBotao("Editar Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\editar.pngg", buttonSize);
+        JButton editarItemButton = criarBotao("Editar Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-8\\imagens\\editar.png", buttonSize);
         editarItemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -232,7 +232,7 @@ public class Admin {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.add(Box.createVerticalStrut(100));
 
-        ImageIcon imagemVerificar = new ImageIcon("CANTINAPROJECT\\imagens\\logoPedeAqui.png"); 
+        ImageIcon imagemVerificar = new ImageIcon("C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-8\\imagens\\logoPedeAqui.png"); 
         Image img = imagemVerificar.getImage(); 
         Image novaImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH); 
         imagemVerificar = new ImageIcon(novaImg); 
