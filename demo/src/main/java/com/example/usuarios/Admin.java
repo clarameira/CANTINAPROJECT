@@ -15,6 +15,7 @@ import java.awt.BorderLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.example.DAO.AdminDao;
 import com.example.DAO.ItemDao;
 import com.example.DAO.PedidoDao;
 import com.example.aplicacoes.Cardapio;
@@ -140,21 +141,89 @@ public class Admin {
         });
         buttonPanel.add(removerItemButton);
         buttonPanel.add(Box.createVerticalStrut(20));
+        
+        //botão de deletar
+        JButton deletarButton = criarBotao("deletar",
+                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+        deletarButton.addActionListener(new ActionListener() {
+            
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                
+                int resposta = JOptionPane.showConfirmDialog(null,
+                "Você tem certeza que deseja deletar sua conta?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                try {
+                    AdminDao.deletar(login);
+                    menuFrame.dispose();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                JOptionPane.showMessageDialog(null, "usuario deletado.");
+            }else{
+                JOptionPane.showMessageDialog(null, "Ação cancelada.");
+            }
+        }
+        });
+        buttonPanel.add(deletarButton);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        
+
+        JButton cadastrarButton = criarBotao("cadastro",
+                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+        cadastrarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String novoLogin = JOptionPane.showInputDialog("Digite o login do novo administrador:");
+                if (novoLogin == null || novoLogin.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(menuFrame, "Login não pode estar vazio.");
+                    return;
+                }
+        
+                String novaSenha = JOptionPane.showInputDialog("Digite a senha do novo administrador:");
+                if (novaSenha == null || novaSenha.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(menuFrame, "Senha não pode estar vazia.");
+                    return;
+                }
+        
+                // Verificar se o administrador já existe
+                try {
+                    if (AdminDao.buscarPorLogin(novoLogin) != null) {
+                        JOptionPane.showMessageDialog(menuFrame, "Administrador com esse login já existe.");
+                        return;
+                    }
+        
+                    // Cadastrar novo administrador
+                    Admin novoAdmin = new Admin(novoLogin, novaSenha);
+                    AdminDao.inserirUsuario(novoAdmin);  // Inserir no banco de dados
+        
+                    JOptionPane.showMessageDialog(menuFrame, "Novo administrador cadastrado com sucesso!");
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(menuFrame, "Erro ao cadastrar administrador: " + ex.getMessage());
+                }
+            }
+        });
+        buttonPanel.add(cadastrarButton);
+        buttonPanel.add(Box.createVerticalStrut(20));
+
+        
+        //botão de sair
         JButton sairButton = criarBotao("Sair",
                 "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
         sairButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuFrame.dispose();
-                JOptionPane.showMessageDialog(null, "Saindo.");
             }
         });
         buttonPanel.add(sairButton);
         buttonPanel.add(Box.createVerticalGlue());
 
-
-        
+        //logo PedeAqui!
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(Color.WHITE);
 
@@ -172,6 +241,7 @@ public class Admin {
         imagemLabel.setAlignmentX(Component.CENTER_ALIGNMENT); 
         rightPanel.add(imagemLabel); 
 
+        //botão de verificar pedido
     JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "caminho/para/imagem_verificar.png", buttonSize);
     verificarPedidosButton.addActionListener(new ActionListener() {
     @Override
@@ -191,6 +261,7 @@ public class Admin {
 
         menuFrame.setVisible(true);
     }
+    
 
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
 

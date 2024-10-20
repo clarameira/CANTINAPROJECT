@@ -45,14 +45,39 @@ public class AdminDao {
         } 
     }
     
-    public static int deletar(Admin admin) throws SQLException {
+    
+    public static int deletar(String admin) throws SQLException {
         String sql = "DELETE FROM administrador WHERE login = ?";
         try (Connection conn = Conexao.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, admin.getLogin());
+            ps.setString(1, admin);
             return ps.executeUpdate();
         }
     }
+    public static Admin buscarPorLogin(String login) throws SQLException {
+        Admin admin = null;
+        String sql = "SELECT * FROM administrador WHERE login = ?"; // Ajuste o nome da tabela conforme necessário
+        
+        try (Connection conn = Conexao.conectar();  // Obtém a conexão
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setString(1, login); // Substitui o parâmetro de login
+            
+            ResultSet rs = stmt.executeQuery(); // Executa a consulta
+            
+            if (rs.next()) {
+                // Se houver resultado, cria um objeto Admin
+                String senha = rs.getString("senha");  // Ajuste o nome das colunas conforme necessário
+                admin = new Admin(login, senha);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Erro ao buscar admin por login: " + e.getMessage());
+        }
+        
+        return admin;
+    }
+
 
     public Admin validarLogin(String login, String senha) throws SQLException {
         String sql = "SELECT * FROM administrador WHERE login = ? AND senha = ?";

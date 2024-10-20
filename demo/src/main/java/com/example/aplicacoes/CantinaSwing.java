@@ -200,7 +200,7 @@ public class CantinaSwing {
         String senha = new String(senhaField.getPassword()); 
 
         if ("Administrador".equals(userType)) {
-            createAdmin(login, senha);
+            JOptionPane.showMessageDialog(null, "administrador não pode ser cadastrado" );
         } else {
             createCliente(login, senha);
         }
@@ -236,23 +236,6 @@ public class CantinaSwing {
         }
     }
 
-    // Método para cadastrar administrador
-    private void createAdmin(String login, String senha) {
-        Admin newAdmin = new Admin(login, senha);
-
-        try {
-            if (!adminExists(login)) {
-                AdminDao.inserirUsuario(newAdmin);
-                JOptionPane.showMessageDialog(null, "Administrador cadastrado com sucesso!");
-                adminList.add(newAdmin);
-            } else {
-                JOptionPane.showMessageDialog(null, "Já existe um administrador com esse login.");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar administrador: " );
-        }
-    }
-
     // Método para cadastrar cliente
     private void createCliente(String login, String senha) {
         Cliente newCliente = new Cliente(login, senha); // Cria um novo objeto Cliente
@@ -270,15 +253,6 @@ public class CantinaSwing {
         }
     }
 
-    // Verificar se o administrador já existe
-    private boolean adminExists(String login) {
-        for (Admin admin : adminList) {
-            if (admin.getLogin().equals(login)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     // Verificar se o cliente já existe
     private boolean clienteExists(String login) {

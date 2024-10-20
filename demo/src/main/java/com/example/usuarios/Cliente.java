@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 
+import com.example.DAO.AdminDao;
 import com.example.DAO.ItemDao;
 import com.example.DAO.PedidoDao;
 import com.example.aplicacoes.Cardapio;
@@ -108,6 +109,34 @@ public class Cliente {
         }
     });
     buttonPanel.add(exibirPedidosButton);
+    
+    JButton deletarButton = criarBotao("deletar","C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+        deletarButton.addActionListener(new ActionListener() {
+            
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                
+                int resposta = JOptionPane.showConfirmDialog(null,
+                "Você tem certeza que deseja deletar sua conta?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                try {
+                    AdminDao.deletar(login);
+                    menuFrame.dispose();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                JOptionPane.showMessageDialog(null, "usuario deletado.");
+            }else{
+                JOptionPane.showMessageDialog(null, "Ação cancelada.");
+            }
+        }
+        });
+        buttonPanel.add(deletarButton);
+        
 
     // Botão Sair
     JButton sairButton = criarBotao("Sair", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
@@ -115,10 +144,11 @@ public class Cliente {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuFrame.dispose(); 
-            JOptionPane.showMessageDialog(null, "Saindo.");
         }
     });
     buttonPanel.add(sairButton);
+
+    
 
     // Painel principal que contém a imagem acima e os botões abaixo
     JPanel mainPanel = new JPanel(new BorderLayout());
@@ -202,26 +232,6 @@ public class Cliente {
             JOptionPane.showMessageDialog(null, "Erro ao verificar pedidos: " + e.getMessage());
         }
     }
-    public String escolherFormaPagamento() {
-    String[] opcoesPagamento = {"Cartão de Crédito", "Cartão de Débito", "Dinheiro"};
-    String pagamentoEscolhido = (String) JOptionPane.showInputDialog(
-            null,
-            "Escolha a forma de pagamento:",
-            "Forma de Pagamento",
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            opcoesPagamento,
-            opcoesPagamento[0] // Valor padrão
-    );
-
-    // Verifica se o usuário cancelou a seleção
-    if (pagamentoEscolhido == null) {
-        JOptionPane.showMessageDialog(null, "Nenhuma forma de pagamento foi selecionada.");
-        return null;
-    }
-    return pagamentoEscolhido;
-}
-
     
 
 
@@ -358,7 +368,7 @@ public class Cliente {
         JButton botao = new JButton("<html><center>" + texto + "</center></html>", iconeRedimensionado);
         botao.setBackground(new Color(255, 165, 0));
         botao.setForeground(Color.WHITE);
-        botao.setPreferredSize(tamanho); // Tamanho do botão
+        botao.setPreferredSize(tamanho); 
         botao.setFont(new Font("Arial", Font.PLAIN, 20));
         botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
         botao.setVerticalTextPosition(SwingConstants.BOTTOM);
