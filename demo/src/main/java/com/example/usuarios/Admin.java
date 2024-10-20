@@ -68,14 +68,15 @@ public class Admin {
         // Painel para organizar os botões à esquerda
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBackground(Color.WHITE); 
+        buttonPanel.setBackground(Color.WHITE); // Fundo branco do painel
 
         buttonPanel.add(Box.createVerticalStrut(10));
 
 
-        Dimension buttonSize = new Dimension(600, 200);
+        Dimension buttonSize = new Dimension(600, 70);
+
         JButton marcarPedidoProntoButton = criarBotao("Marcar Pedido como Pronto",
-                "caminho/para/imagem_pedido_pronto.png", buttonSize);
+                "C:\\\\Users\\\\mclar\\\\OneDrive\\\\Documentos\\\\Área de Trabalho\\\\CANTINAPROJECT-7\\\\imagens\\\\exibir.png", buttonSize);
         marcarPedidoProntoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +84,7 @@ public class Admin {
             }
         });
         buttonPanel.add(marcarPedidoProntoButton);
-        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalStrut(10));
 
         JButton exibirCardapioButton = criarBotao("Exibir Cardápio",
                 "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\exibir.png", buttonSize);
@@ -106,7 +107,7 @@ public class Admin {
             }
         });
         buttonPanel.add(exibirCardapioButton);
-        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalStrut(10));
 
         JButton adicionarItemButton = criarBotao("Adicionar Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\adicionar.png", buttonSize);
         adicionarItemButton.addActionListener(new ActionListener() {
@@ -120,7 +121,7 @@ public class Admin {
             }
         });
         buttonPanel.add(adicionarItemButton);
-        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalStrut(10));
 
         JButton editarItemButton = criarBotao("Editar Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-8\\imagens\\editar.png", buttonSize);
         editarItemButton.addActionListener(new ActionListener() {
@@ -130,7 +131,7 @@ public class Admin {
             }
         });
         buttonPanel.add(editarItemButton);
-        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalStrut(10));
 
         JButton removerItemButton = criarBotao("Remover Item", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\remover.png", buttonSize);
         removerItemButton.addActionListener(new ActionListener() {
@@ -140,7 +141,7 @@ public class Admin {
             }
         });
         buttonPanel.add(removerItemButton);
-        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalStrut(10));
         
         //botão de deletar
         JButton deletarButton = criarBotao("Deletar Conta",
@@ -163,14 +164,14 @@ public class Admin {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                JOptionPane.showMessageDialog(null, "Usuário deletado.");
+                JOptionPane.showMessageDialog(null, "usuario deletado.");
             }else{
                 JOptionPane.showMessageDialog(null, "Ação cancelada.");
             }
         }
         });
         buttonPanel.add(deletarButton);
-        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalStrut(10));
         
 
         JButton cadastrarButton = criarBotao("Cadastrar Novo Administrador",
@@ -190,14 +191,16 @@ public class Admin {
                     return;
                 }
         
+                // Verificar se o administrador já existe
                 try {
                     if (AdminDao.buscarPorLogin(novoLogin) != null) {
                         JOptionPane.showMessageDialog(menuFrame, "Administrador com esse login já existe.");
                         return;
                     }
-
+        
+                    // Cadastrar novo administrador
                     Admin novoAdmin = new Admin(novoLogin, novaSenha);
-                    AdminDao.inserirUsuario(novoAdmin);  
+                    AdminDao.inserirUsuario(novoAdmin);  // Inserir no banco de dados
         
                     JOptionPane.showMessageDialog(menuFrame, "Novo administrador cadastrado com sucesso!");
                 } catch (SQLException ex) {
@@ -206,7 +209,7 @@ public class Admin {
             }
         });
         buttonPanel.add(cadastrarButton);
-        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(Box.createVerticalStrut(10));
 
         
         //botão de sair
@@ -472,7 +475,7 @@ public class Admin {
         itemParaEditar.setPreco(novoPreco);
 
         try {
-            ItemDao.atualizarItem(itemParaEditar, nome); 
+            ItemDao.atualizarItem(itemParaEditar, nome); // Passa o nome original
             JOptionPane.showMessageDialog(null, "Item atualizado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar item no banco de dados: " + e.getMessage());
