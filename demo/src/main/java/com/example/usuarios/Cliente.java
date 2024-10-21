@@ -110,7 +110,7 @@ public class Cliente {
     });
     buttonPanel.add(exibirPedidosButton);
     
-    JButton deletarButton = criarBotao("Deletar Conta","C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+    JButton deletarButton = criarBotao("Deletar Conta","C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-12\\imagens\\remover.png", buttonSize);
         deletarButton.addActionListener(new ActionListener() {
             
 
@@ -268,36 +268,36 @@ public class Cliente {
         // Painel para exibir os pedidos
         JPanel pedidosPanel = new JPanel();
         pedidosPanel.setLayout(new BoxLayout(pedidosPanel, BoxLayout.Y_AXIS));
-        pedidosPanel.setBackground(Color.WHITE); // Fundo branco
+        pedidosPanel.setBackground(Color.WHITE);
     
         for (Pedido pedido : pedidos) {
             // Painel para cada pedido
             JPanel pedidoPanel = new JPanel();
             pedidoPanel.setLayout(new BoxLayout(pedidoPanel, BoxLayout.Y_AXIS));
-            pedidoPanel.setBorder(BorderFactory.createLineBorder(darkOrange, 2)); // Borda com laranja mais escuro
-            pedidoPanel.setBackground(Color.WHITE); // Fundo branco
+            pedidoPanel.setBorder(BorderFactory.createLineBorder(darkOrange, 2)); 
+            pedidoPanel.setBackground(Color.WHITE); 
     
             // Informações do cliente
             JLabel clienteLabel = new JLabel("Cliente: " + pedido.getNomeCliente());
             clienteLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-            clienteLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            clienteLabel.setForeground(darkOrange);
             pedidoPanel.add(clienteLabel);
     
             JLabel clienteIdLabel = new JLabel("ID do Cliente: " + pedido.getClienteId());
             clienteIdLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            clienteIdLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            clienteIdLabel.setForeground(darkOrange); 
             pedidoPanel.add(clienteIdLabel);
     
             // Itens do pedido
             JLabel itensLabel = new JLabel("Itens:");
             itensLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            itensLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            itensLabel.setForeground(darkOrange); 
             pedidoPanel.add(itensLabel);
     
             for (ItemCard item : pedido.getItens()) {
                 JLabel itemLabel = new JLabel("- " + item.getItem() + ": R$ " + item.getPreco());
                 itemLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-                itemLabel.setForeground(Color.BLACK); // Texto preto
+                itemLabel.setForeground(Color.BLACK); 
                 pedidoPanel.add(itemLabel);
             }
     
@@ -306,7 +306,7 @@ public class Cliente {
     
             JLabel totalPedidoLabel = new JLabel("Total do Pedido: R$ " + totalPedido);
             totalPedidoLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            totalPedidoLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+            totalPedidoLabel.setForeground(darkOrange); 
             pedidoPanel.add(totalPedidoLabel);
             
             // Se o pedido estiver pronto, exibe um botão para confirmar recebimento
@@ -349,7 +349,7 @@ public class Cliente {
         // Exibe o total geral de todos os pedidos na parte inferior da tela
         JLabel totalGeralLabel = new JLabel("Total Geral de Todos os Pedidos: R$ " + totalGeral);
         totalGeralLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        totalGeralLabel.setForeground(darkOrange); // Texto com laranja mais escuro
+        totalGeralLabel.setForeground(darkOrange); 
         totalGeralLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o texto
         totalGeralLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Espaçamento
         mainPanel.add(totalGeralLabel, BorderLayout.SOUTH); // Coloca o total no rodapé

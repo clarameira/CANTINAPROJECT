@@ -23,7 +23,7 @@ public class ItemDao {
             System.out.println(linhasAfetadas + " linha(s) inserida(s) com sucesso!");
         } catch (SQLException e) {
             System.err.println("Erro ao inserir dados:");
-            throw e; // Re-lança a exceção
+            throw e; 
         }
     }
 
@@ -90,7 +90,7 @@ public class ItemDao {
             }
         } catch (SQLException e) {
             System.err.println("Erro ao remover dados: " + e.getMessage());
-            throw e; // Re-lança a exceção
+            throw e; 
         }
     }    
 

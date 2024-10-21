@@ -264,7 +264,6 @@ public class CantinaSwing {
         return false;
     }
 
-    // Carregar cardápio 
     private void carregarCardapio() {
         try {
             ItemDao.pegarTodos(cardapio);

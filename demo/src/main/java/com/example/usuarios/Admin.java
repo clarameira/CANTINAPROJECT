@@ -76,7 +76,7 @@ public class Admin {
         Dimension buttonSize = new Dimension(600, 70);
 
         JButton marcarPedidoProntoButton = criarBotao("Marcar Pedido como Pronto",
-                "C:\\\\Users\\\\mclar\\\\OneDrive\\\\Documentos\\\\Área de Trabalho\\\\CANTINAPROJECT-7\\\\imagens\\\\exibir.png", buttonSize);
+                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-12\\imagens\\aprovarPed.png", buttonSize);
         marcarPedidoProntoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +145,7 @@ public class Admin {
         
         //botão de deletar
         JButton deletarButton = criarBotao("Deletar Conta",
-                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-12\\imagens\\remover.png", buttonSize);
         deletarButton.addActionListener(new ActionListener() {
             
 
@@ -164,7 +164,7 @@ public class Admin {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                JOptionPane.showMessageDialog(null, "usuario deletado.");
+                JOptionPane.showMessageDialog(null, "Usuário deletado.");
             }else{
                 JOptionPane.showMessageDialog(null, "Ação cancelada.");
             }
@@ -175,7 +175,7 @@ public class Admin {
         
 
         JButton cadastrarButton = criarBotao("Cadastrar Novo Administrador",
-                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-7\\imagens\\sair.png", buttonSize);
+                "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-12\\imagens\\adicionar.png", buttonSize);
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -243,7 +243,7 @@ public class Admin {
         rightPanel.add(imagemLabel); 
 
         //botão de verificar pedido
-    JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "caminho/para/imagem_verificar.png", buttonSize);
+    JButton verificarPedidosButton = criarBotao("Verificar Pedidos", "C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-12\\imagens\\exibir.png", buttonSize);
     verificarPedidosButton.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
