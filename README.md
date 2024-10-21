@@ -8,7 +8,7 @@ O **PedeAqui!** é um sistema de gerenciamento de operações em cantinas que fo
 - **Consulta de Itens:** Os usuários podem visualizar os itens disponíveis em estoque, facilitando a escolha de pedido, além de marcar recebimento.
 - **Gerenciamento de Cardápio:** O administrador da cantina tem a capacidade de gerenciar os itens do cardápio e aprovar os pedidos recebidos.
 - **Otimização de Processos:** O sistema reduz a necessidade de pedidos presenciais, agilizando o atendimento e a gestão do estoque.
-- **Demais administradores podem ser adicionados penas pelo administrador Master já cadastrado no banco de dados, para que não existam conflitos se falhas de segurança. 
+- Demais administradores podem ser adicionados penas pelo administrador Master já cadastrado no banco de dados, para que não existam conflitos se falhas de segurança. 
 
 ## Requisitos do Sistema
 
@@ -23,8 +23,13 @@ O **PedeAqui!** é um sistema de gerenciamento de operações em cantinas que fo
 - Crie as tabelas no banco de dados utilizando PostgreSQL, nomeado "cantinaproject", e configure suas credenciais.
 - javac -d bin -sourcepath src src/com/cantinaproject/CantinaSwing.java
 
+## Link para Documentação:
+- https://docs.google.com/document/d/19UaHpYr3_oqhDihZJRbHX-mf4VbnqZ6XnE9aU-fSuLs/edit?tab=t.0
+
 ## Equipe de Desenvolvimento 
 - Fernanda Rocha
 - Maria Clara Meira
 - Maria Herculana
+
+  
   
