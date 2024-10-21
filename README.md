@@ -18,13 +18,13 @@ O **PedeAqui!** é um sistema de gerenciamento de operações em cantinas que fo
 
 ## Instruções Para Execução
 
-- **git clone https://github.com/clarameira/CANTINAPROJECT.git
-- **cd CANTINAPROJECT
-- ** Crie as tabelas no banco de dados utilizando PostgreSQL, nomeado "cantinaproject", e configure suas credenciais.
-- **javac -d bin -sourcepath src src/com/cantinaproject/CantinaSwing.java
+- git clone https://github.com/clarameira/CANTINAPROJECT.git
+- cd CANTINAPROJECT
+- Crie as tabelas no banco de dados utilizando PostgreSQL, nomeado "cantinaproject", e configure suas credenciais.
+- javac -d bin -sourcepath src src/com/cantinaproject/CantinaSwing.java
 
 ## Equipe de Desenvolvimento 
-- **Fernanda Rocha
-- **Maria Clara Meira
-- **Maria Herculana
+- Fernanda Rocha
+- Maria Clara Meira
+- Maria Herculana
   
