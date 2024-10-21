@@ -68,7 +68,7 @@ public class Admin {
         // Painel para organizar os botões à esquerda
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBackground(Color.WHITE); // Fundo branco do painel
+        buttonPanel.setBackground(Color.WHITE); 
 
         buttonPanel.add(Box.createVerticalStrut(10));
 
@@ -200,7 +200,7 @@ public class Admin {
         
                     // Cadastrar novo administrador
                     Admin novoAdmin = new Admin(novoLogin, novaSenha);
-                    AdminDao.inserirUsuario(novoAdmin);  // Inserir no banco de dados
+                    AdminDao.inserirUsuario(novoAdmin);  
         
                     JOptionPane.showMessageDialog(menuFrame, "Novo administrador cadastrado com sucesso!");
                 } catch (SQLException ex) {
@@ -349,7 +349,7 @@ public class Admin {
 
         for (int i = 0; i < pedidosNaoProntos.size(); i++) {
             Pedido pedido = pedidosNaoProntos.get(i);
-            ItemCard itemCard = pedido.getItens().get(0);  // Supondo que haja um único item por pedido
+            ItemCard itemCard = pedido.getItens().get(0);  
             
             dados[i][0] = pedido.getClienteId();  
             dados[i][1] = pedido.getNomeCliente();
@@ -467,15 +467,15 @@ public class Admin {
             novoPreco = Double.parseDouble(precoInput);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Preço inválido. Tente novamente.");
-            return; // Sai do método se o preço for inválido
+            return; 
         }
 
-        itemParaEditar.setItem(novoNome); // Atualiza o nome do item
+        itemParaEditar.setItem(novoNome); 
         itemParaEditar.setDescricao(novaDescricao);
         itemParaEditar.setPreco(novoPreco);
 
         try {
-            ItemDao.atualizarItem(itemParaEditar, nome); // Passa o nome original
+            ItemDao.atualizarItem(itemParaEditar, nome); 
             JOptionPane.showMessageDialog(null, "Item atualizado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar item no banco de dados: " + e.getMessage());
@@ -485,12 +485,12 @@ public class Admin {
     private void removerItemCardapio() {
         String nome = JOptionPane.showInputDialog("Digite o nome do item que deseja remover:");
         if (nome == null || nome.trim().isEmpty())
-            return; // Verifica se o usuário cancelou ou não digitou nada
+            return; 
 
         boolean removido = cardapio.removerItem(nome);
         if (removido) {
             try {
-                ItemDao.removerItem(nome); // Remover do banco de dados, utilizando o nome
+                ItemDao.removerItem(nome); 
                 JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao remover item do banco de dados: " + e.getMessage());

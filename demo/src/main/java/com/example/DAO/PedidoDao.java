@@ -23,7 +23,7 @@ public class PedidoDao {
                 pstmt.setInt(2, pedido.getClienteId());   
                 pstmt.setString(3, item.getItem());       
                 pstmt.setDouble(4, item.getPreco());      
-                pstmt.setBoolean(5, pedido.isPedidoPronto()); // Indica se o pedido está pronto
+                pstmt.setBoolean(5, pedido.isPedidoPronto()); 
                 pstmt.addBatch();
             }
             pstmt.executeBatch(); 
@@ -53,11 +53,11 @@ public class PedidoDao {
                 String client = rs.getString("cliente");
                 int id = rs.getInt("clienteid");
                 double preco = rs.getDouble("preco");
-                boolean pedidoPronto = rs.getBoolean("pedidoPronto"); // Recupera o status do pedido
+                boolean pedidoPronto = rs.getBoolean("pedidoPronto"); 
     
                 ItemCard itemCard = new ItemCard(item, preco);
                 Pedido pedido = new Pedido(id, client, Collections.singletonList(itemCard));
-                pedido.setPedidoPronto(pedidoPronto); // Define o status do pedido
+                pedido.setPedidoPronto(pedidoPronto); 
                 pedidos.add(pedido);
             }
         } catch (SQLException e) {

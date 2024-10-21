@@ -36,8 +36,8 @@ public class AdminDao {
                 String login = rs.getString("login");
                 String senha = rs.getString("senha");
 
-                Admin adm = new Admin(login, senha); // Passa o cardápio
-                cantina.adicionarAdmin(adm); // Adiciona à lista de administradores
+                Admin adm = new Admin(login, senha); 
+                cantina.adicionarAdmin(adm); 
             }
         } catch (SQLException e) {
             e.printStackTrace(); 
@@ -56,18 +56,17 @@ public class AdminDao {
     }
     public static Admin buscarPorLogin(String login) throws SQLException {
         Admin admin = null;
-        String sql = "SELECT * FROM administrador WHERE login = ?"; // Ajuste o nome da tabela conforme necessário
+        String sql = "SELECT * FROM administrador WHERE login = ?"; 
         
-        try (Connection conn = Conexao.conectar();  // Obtém a conexão
+        try (Connection conn = Conexao.conectar();  
              PreparedStatement stmt = conn.prepareStatement(sql)) {
              
-            stmt.setString(1, login); // Substitui o parâmetro de login
+            stmt.setString(1, login); 
             
-            ResultSet rs = stmt.executeQuery(); // Executa a consulta
+            ResultSet rs = stmt.executeQuery(); 
             
             if (rs.next()) {
-                // Se houver resultado, cria um objeto Admin
-                String senha = rs.getString("senha");  // Ajuste o nome das colunas conforme necessário
+                String senha = rs.getString("senha");  
                 admin = new Admin(login, senha);
             }
         } catch (SQLException e) {
@@ -90,7 +89,7 @@ public class AdminDao {
             
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Admin(rs.getString("login"), rs.getString("senha")); // Ajuste conforme sua lógica
+                return new Admin(rs.getString("login"), rs.getString("senha")); 
             }
         } catch (SQLException e) {
             System.err.println("Erro ao validar login:");

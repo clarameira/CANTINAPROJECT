@@ -9,7 +9,7 @@ import com.example.aplicacoes.Cardapio;
 import com.example.aplicacoes.ItemCard;
 public class ItemDao {
 
-    public static void inserirItem(ItemCard item) throws SQLException { // Adicionei throws SQLException aqui
+    public static void inserirItem(ItemCard item) throws SQLException { 
         String sql = "INSERT INTO cardapio (item, descricao, preco) VALUES (?, ?, ?)";
 
         try (Connection conexao = Conexao.conectar();
@@ -54,10 +54,10 @@ public class ItemDao {
         try (Connection conexao = Conexao.conectar();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
         
-            pstmt.setString(1, item.getItem()); // Novo nome do item
+            pstmt.setString(1, item.getItem()); 
             pstmt.setString(2, item.getDescricao());
             pstmt.setDouble(3, item.getPreco());
-            pstmt.setString(4, nomeOriginal); // Nome original para a condição WHERE
+            pstmt.setString(4, nomeOriginal); 
     
             int linhasAfetadas = pstmt.executeUpdate();
             if (linhasAfetadas == 0) {
@@ -67,7 +67,7 @@ public class ItemDao {
             }
         } catch (SQLException e) {
             System.err.println("Erro ao atualizar dados: " + e.getMessage());
-            throw e; // Re-lança a exceção
+            throw e; 
         }
     }
 

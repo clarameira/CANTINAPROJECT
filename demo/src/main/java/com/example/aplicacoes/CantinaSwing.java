@@ -46,14 +46,14 @@ public class CantinaSwing {
 
     private void initializeUI() {
         JFrame frame = new JFrame("Sistema Cantina");
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Abre em tela cheia
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.WHITE);  
     
-        // Painel do cabeçalho
+        
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(255, 165, 0)); 
         JLabel headerLabel = new JLabel("Bem-vindo ao PedeAqui!");
@@ -72,12 +72,12 @@ public class CantinaSwing {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Inicializa o painel formPanel
+        
         formPanel.setLayout(new GridBagLayout());  
 
         GridBagConstraints gbcc = new GridBagConstraints();
 
-// Adiciona a imagem
+
         JLabel imagemLabel = new JLabel();
         ImageIcon imageIcon = new ImageIcon("C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-10\\imagens\\logoPedeAqui.png"); 
         Image image = imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH); 
@@ -100,7 +100,7 @@ public class CantinaSwing {
         JLabel userTypeLabel = new JLabel("Selecione o tipo de usuário:");
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 1;  // Retorna a uma coluna
+        gbc.gridwidth = 1; 
         formPanel.add(userTypeLabel, gbc);
     
         String[] userTypes = {"Cliente", "Administrador"};
@@ -129,7 +129,7 @@ public class CantinaSwing {
         gbc.gridy = 3;
         formPanel.add(senhaField, gbc);
     
-        // Botão de Login
+        
         loginButton = new JButton("Login");
         loginButton.setBackground(Color.ORANGE);
         loginButton.setForeground(Color.WHITE);
@@ -140,7 +140,7 @@ public class CantinaSwing {
         gbc.gridy = 4;
         formPanel.add(loginButton, gbc);
     
-        // Botão de Cadastro
+        
         cadastroButton = new JButton("Cadastro");
         cadastroButton.setBackground(Color.ORANGE);
         cadastroButton.setForeground(Color.WHITE);
@@ -159,7 +159,7 @@ public class CantinaSwing {
         cardapioPanel.setBorder(BorderFactory.createTitledBorder("Cardápio"));
         
         JTextArea cardapioTextArea = new JTextArea();
-        cardapioTextArea.setEditable(false); // Não permitir edição
+        cardapioTextArea.setEditable(false); 
         cardapioTextArea.setLineWrap(true);
         cardapioTextArea.setWrapStyleWord(true);
         cardapioTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -212,7 +212,7 @@ public class CantinaSwing {
             Admin admin = adminDao.validarLogin(login, senha);
             if (admin != null) {
                 JOptionPane.showMessageDialog(null, "Login de administrador realizado com sucesso!");
-                admin.exibirMenuAdmin();  // Exibir menu para o administrador
+                admin.exibirMenuAdmin(); 
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha de administrador inválidos!");
             }
@@ -224,10 +224,10 @@ public class CantinaSwing {
     // Método para logar cliente
     private void loginCliente(String login, String senha) {
         try {
-            Cliente cliente = clienteDao.validarLogin(login, senha); // Validação do login do cliente
+            Cliente cliente = clienteDao.validarLogin(login, senha); 
             if (cliente != null) {
                 JOptionPane.showMessageDialog(null, "Login de cliente realizado com sucesso!");
-                cliente.exibirMenuCliente();  // Exibir menu para o cliente
+                cliente.exibirMenuCliente();  
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha de cliente inválidos!");
             }
@@ -238,13 +238,13 @@ public class CantinaSwing {
 
     // Método para cadastrar cliente
     private void createCliente(String login, String senha) {
-        Cliente newCliente = new Cliente(login, senha); // Cria um novo objeto Cliente
+        Cliente newCliente = new Cliente(login, senha);
 
         try {
             if (!clienteExists(login)) {
-                clienteDao.inserirUsuario(newCliente); // Chama o método para inserir o cliente no banco
+                clienteDao.inserirUsuario(newCliente); 
                 JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
-                clienteList.add(newCliente); // Adiciona à lista local de clientes
+                clienteList.add(newCliente); 
             } else {
                 JOptionPane.showMessageDialog(null, "Já existe um cliente com esse login.");
             }

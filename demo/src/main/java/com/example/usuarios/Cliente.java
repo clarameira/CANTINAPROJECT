@@ -58,7 +58,7 @@ public class Cliente {
     // Painel para a imagem
     JPanel imagePanel = new JPanel();
     imagePanel.setBackground(Color.WHITE);
-    JLabel imageLabel = new JLabel(new ImageIcon("C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-8\\imagens\\logoPedeAqui.png")); // Adicione o caminho da sua imagem
+    JLabel imageLabel = new JLabel(new ImageIcon("C:\\Users\\mclar\\OneDrive\\Documentos\\Área de Trabalho\\CANTINAPROJECT-8\\imagens\\logoPedeAqui.png")); 
     imagePanel.add(imageLabel);
 
     // Painel para os botões
@@ -156,7 +156,7 @@ public class Cliente {
 
     // Adiciona os painéis no layout
     mainPanel.add(imagePanel, BorderLayout.NORTH);  // A imagem fica no topo
-    mainPanel.add(buttonPanel, BorderLayout.CENTER); // Os botões ficam no centro
+    mainPanel.add(buttonPanel, BorderLayout.CENTER); 
 
     // Adiciona o painel principal no frame
     menuFrame.add(mainPanel, BorderLayout.CENTER);
@@ -247,23 +247,23 @@ public class Cliente {
         // Definindo um laranja mais escuro
         Color darkOrange = new Color(255, 140, 0);
     
-        // Criar uma janela principal em tela cheia
+        
         JFrame frame = new JFrame("Histórico de Pedidos");
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre em tela cheia
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         // Painel principal usando BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Color.WHITE); // Fundo branco
+        mainPanel.setBackground(Color.WHITE); 
     
         // Título no topo
         JLabel titleLabel = new JLabel("Pedidos Realizados");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(darkOrange); // Texto com laranja mais escuro
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o título
+        titleLabel.setForeground(darkOrange); 
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER); 
         mainPanel.add(titleLabel, BorderLayout.NORTH);
     
-        double totalGeral = 0.0; // Variável para armazenar o total de todos os pedidos
+        double totalGeral = 0.0; 
         
         // Painel para exibir os pedidos
         JPanel pedidosPanel = new JPanel();
@@ -324,7 +324,7 @@ public class Cliente {
                             PedidoDao.deletarPedidoPorLogin(login);
                             JOptionPane.showMessageDialog(frame, "Pedido #" + pedido.getClienteId() + " confirmado como recebido.");
                             
-                            // Remove o painel do pedido
+                            
                             pedidosPanel.remove(pedidoPanel);
                             pedidosPanel.revalidate();
                             pedidosPanel.repaint();
@@ -338,7 +338,7 @@ public class Cliente {
             }
     
             pedidosPanel.add(pedidoPanel);
-            pedidosPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaço entre os pedidos
+            pedidosPanel.add(Box.createRigidArea(new Dimension(0, 20))); 
         }
     
         // Adiciona o painel de pedidos dentro de um JScrollPane (barra de rolagem)
@@ -350,13 +350,13 @@ public class Cliente {
         JLabel totalGeralLabel = new JLabel("Total Geral de Todos os Pedidos: R$ " + totalGeral);
         totalGeralLabel.setFont(new Font("Arial", Font.BOLD, 20));
         totalGeralLabel.setForeground(darkOrange); 
-        totalGeralLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o texto
-        totalGeralLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Espaçamento
-        mainPanel.add(totalGeralLabel, BorderLayout.SOUTH); // Coloca o total no rodapé
+        totalGeralLabel.setHorizontalAlignment(SwingConstants.CENTER); 
+        totalGeralLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); 
+        mainPanel.add(totalGeralLabel, BorderLayout.SOUTH); 
     
         // Adiciona o painel principal ao frame
         frame.getContentPane().add(mainPanel);
-        frame.setVisible(true); // Exibe a janela
+        frame.setVisible(true); 
     }
     
     private JButton criarBotao(String texto, String caminhoIcone, Dimension tamanho) {
@@ -370,9 +370,9 @@ public class Cliente {
         botao.setForeground(Color.WHITE);
         botao.setPreferredSize(tamanho); 
         botao.setFont(new Font("Arial", Font.PLAIN, 20));
-        botao.setHorizontalTextPosition(SwingConstants.CENTER); // Centraliza o texto horizontalmente
+        botao.setHorizontalTextPosition(SwingConstants.CENTER); 
         botao.setVerticalTextPosition(SwingConstants.BOTTOM);
-        botao.setAlignmentX(Component.CENTER_ALIGNMENT); // Centraliza o botão
+        botao.setAlignmentX(Component.CENTER_ALIGNMENT); 
         botao.setMargin(new Insets(10, 10, 10, 10)); // Define margens para evitar que o texto seja cortado
 
         return botao;

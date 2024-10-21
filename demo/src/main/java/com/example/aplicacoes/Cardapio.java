@@ -93,7 +93,7 @@ public class Cardapio {
     }
 
     public ItemCard[] getItens() {
-        return itens.toArray(new ItemCard[0]); // Converte a lista de itens em um array
+        return itens.toArray(new ItemCard[0]); 
     }
 
 }

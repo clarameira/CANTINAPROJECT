@@ -37,8 +37,8 @@ public class ClienteDao {
                 String login = rs.getString("login");
                 String senha = rs.getString("senha");
 
-                Cliente cliente = new Cliente(login, senha); // Cria um novo objeto Cliente
-                cantina.adicionarCliente(cliente); // Adiciona à lista de clientes na CantinaSwing
+                Cliente cliente = new Cliente(login, senha); 
+                cantina.adicionarCliente(cliente); 
             }
         } catch (SQLException e) {
             e.printStackTrace(); 
@@ -66,7 +66,7 @@ public class ClienteDao {
         
         ResultSet rs = pstmt.executeQuery();
         if (rs.next()) {
-            return new Cliente(rs.getString("login"), rs.getString("senha")); // Ajuste conforme sua lógica de cliente
+            return new Cliente(rs.getString("login"), rs.getString("senha")); 
         }
     } catch (SQLException e) {
         System.err.println("Erro ao validar login:");

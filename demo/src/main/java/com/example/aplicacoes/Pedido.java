@@ -6,15 +6,15 @@ public class Pedido {
     private int clienteId;
     private String nomeCliente;
     private double totalPreco;
-    private List<ItemCard> itens; // Lista de itens do pedido
-    private boolean pedidoPronto; // Variável para indicar se o pedido está pronto
+    private List<ItemCard> itens;
+    private boolean pedidoPronto; 
 
     // Construtor que aceita o ID do cliente, nome do cliente e lista de itens do cardápio
     public Pedido(int clienteId, String nomeCliente, List<ItemCard> itens) {
         this.clienteId = clienteId;
         this.nomeCliente = nomeCliente;
         this.itens = itens;
-        this.pedidoPronto = false; // Inicialmente, o pedido não está pronto
+        this.pedidoPronto = false; 
     }
 
     public int getClienteId() {
@@ -42,9 +42,9 @@ public class Pedido {
     // Método para obter o nome do item selecionado
     public String getItemNome() {
         if (!itens.isEmpty()) {
-            return itens.get(0).getItem(); // Retorna o nome do item da lista
+            return itens.get(0).getItem(); 
         }
-        return ""; // Retorna vazio se não houver itens
+        return ""; 
     }
 
     public double getTotalPreco() {
